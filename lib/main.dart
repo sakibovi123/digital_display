@@ -1,4 +1,4 @@
-import 'package:digitaldisplay/views/screens/CreateDisplay.dart';
+import 'package:digitaldisplay/views/screens/CreateProduct.dart';
 import 'package:digitaldisplay/views/screens/Home.dart';
 import 'package:digitaldisplay/views/screens/Login.dart';
 import 'package:digitaldisplay/views/screens/Splash.dart';
@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const CreateDisplay(),
+      home: const CreateProduct(),
     );
   }
 }
