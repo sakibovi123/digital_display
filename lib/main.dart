@@ -1,5 +1,8 @@
+import 'package:digitaldisplay/views/screens/CreateDisplay.dart';
 import 'package:digitaldisplay/views/screens/Home.dart';
+import 'package:digitaldisplay/views/screens/Login.dart';
 import 'package:digitaldisplay/views/screens/Splash.dart';
+import 'package:digitaldisplay/views/widgets/Package.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -18,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const Home(),
+      home: const CreateDisplay(),
     );
   }
 }

@@ -7,7 +7,7 @@ class Package extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(8.0),
-      height: 250.0,
+      height: 500.0,
       width: double.infinity,
       child: Card(
         margin: const EdgeInsets.all(5.0),
@@ -19,19 +19,17 @@ class Package extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text(
+            const Text(
               "Simple - \$25/m",
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,
               ),
             ),
-
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
-
                 children: [
                   Row(
                     children: const [
@@ -39,9 +37,7 @@ class Package extends StatelessWidget {
                         Icons.arrow_right,
                         color: Colors.green,
                       ),
-                      Text(
-                        "Manage 5 Display"
-                      ),
+                      Text("Manage 5 Display"),
                     ],
                   ),
                   Row(
@@ -50,9 +46,7 @@ class Package extends StatelessWidget {
                         Icons.arrow_right,
                         color: Colors.green,
                       ),
-                      Text(
-                          "Manage 5 Display"
-                      ),
+                      Text("Manage 5 Display"),
                     ],
                   ),
                   Row(
@@ -61,9 +55,7 @@ class Package extends StatelessWidget {
                         Icons.arrow_right,
                         color: Colors.green,
                       ),
-                      Text(
-                          "Manage 5 Display"
-                      ),
+                      Text("Manage 5 Display"),
                     ],
                   ),
                   Row(
@@ -72,9 +64,7 @@ class Package extends StatelessWidget {
                         Icons.arrow_right,
                         color: Colors.green,
                       ),
-                      Text(
-                          "Manage 5 Display"
-                      ),
+                      Text("Manage 5 Display"),
                     ],
                   ),
                   Row(
@@ -83,16 +73,12 @@ class Package extends StatelessWidget {
                         Icons.arrow_right,
                         color: Colors.green,
                       ),
-                      Text(
-                          "Manage 5 Display"
-                      ),
+                      Text("Manage 5 Display"),
                     ],
                   ),
-
                 ],
               ),
             ),
-
           ],
         ),
       ),
