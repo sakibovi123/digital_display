@@ -10,6 +10,8 @@ import '../widgets/Display.dart';
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);
 
+  static const routeName = "/home";
+
   @override
   State<Home> createState() => _HomeState();
 }

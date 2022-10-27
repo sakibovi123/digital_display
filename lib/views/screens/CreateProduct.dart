@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 class CreateProduct extends StatefulWidget {
   const CreateProduct({super.key});
 
+  static const routeName = "/create-product";
+
   @override
   State<CreateProduct> createState() => _CreateProductState();
 }

@@ -7,6 +7,8 @@ import 'package:flutter/src/widgets/framework.dart';
 class CreateDisplay extends StatefulWidget {
   const CreateDisplay({super.key});
 
+  static const routeName = "/create-display";
+
   @override
   State<CreateDisplay> createState() => _CreateDisplayState();
 }
