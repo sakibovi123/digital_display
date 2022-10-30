@@ -1,8 +1,10 @@
+import 'package:digitaldisplay/controllers/DisplayController.dart';
 import 'package:digitaldisplay/views/widgets/Display.dart';
 import 'package:digitaldisplay/views/widgets/ProductDisplayCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:provider/provider.dart';
 
 class CreateDisplay extends StatefulWidget {
   const CreateDisplay({super.key});
@@ -14,6 +16,59 @@ class CreateDisplay extends StatefulWidget {
 }
 
 class _CreateDisplayState extends State<CreateDisplay> {
+  String _name = "";
+  String _category = "";
+  String _templateName = "";
+  String product = "1";
+  // String catelogImage = "";
+  // String video = "";
+  //String productId = "";
+
+  final _form = GlobalKey<FormState>();
+
+  void _addDisplay() async {
+    var isValid = _form.currentState!.validate();
+    if (!isValid) {
+      return;
+    }
+    _form.currentState!.save();
+    bool create = await Provider.of<DisplayController>(context, listen: false)
+        .createDisplay(_name, _category, _templateName, 1);
+    if (create) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Created"),
+              actions: [
+                ElevatedButton(
+                  child: const Text("Return"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+    } else {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text("Failed to create display!"),
+              actions: [
+                ElevatedButton(
+                  child: const Text("Return"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final ButtonStyle buttonStyle1 = ElevatedButton.styleFrom(
@@ -172,65 +227,152 @@ class _CreateDisplayState extends State<CreateDisplay> {
                         spreadRadius: 1,
                       )
                     ]),
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    Flexible(
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: TextField(
-                          autofocus: true,
-                          style: const TextStyle(
-                              fontSize: 15.0, color: Colors.black),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Name',
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 6.0, top: 8.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 73, 57, 55)),
-                              borderRadius: BorderRadius.circular(0.0),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(0.0),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Flexible(
-                      child: Padding(
-                        padding: EdgeInsets.all(10),
-                        child: TextField(
-                          autofocus: true,
-                          style: const TextStyle(
-                              fontSize: 15.0, color: Colors.black),
-                          decoration: InputDecoration(
-                            border: InputBorder.none,
-                            hintText: 'Banner Text',
-                            filled: true,
-                            fillColor: Colors.white,
-                            contentPadding: const EdgeInsets.only(
-                                left: 14.0, bottom: 6.0, top: 8.0),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                  color: Color.fromARGB(255, 73, 57, 55)),
-                              borderRadius: BorderRadius.circular(0.0),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: const BorderSide(color: Colors.grey),
-                              borderRadius: BorderRadius.circular(0.0),
+                child: Form(
+                  key: _form,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Flexible(
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: TextFormField(
+                                validator: (v) {
+                                  if (v!.isEmpty) {
+                                    return "Please Enter a valid name";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                onSaved: (value) {
+                                  _name = value as String;
+                                },
+                                autofocus: true,
+                                style: const TextStyle(
+                                    fontSize: 15.0, color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Name',
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 6.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 73, 57, 55)),
+                                    borderRadius: BorderRadius.circular(0.0),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(0.0),
+                                  ),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                          Flexible(
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: TextFormField(
+                                validator: (v) {
+                                  if (v!.isEmpty) {
+                                    return "Please enter valid category title";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                onSaved: (value) {
+                                  _category = value as String;
+                                },
+                                autofocus: true,
+                                style: const TextStyle(
+                                    fontSize: 15.0, color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Category',
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 6.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 73, 57, 55)),
+                                    borderRadius: BorderRadius.circular(0.0),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(0.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: TextFormField(
+                                validator: (v) {
+                                  if (v!.isEmpty) {
+                                    return "Please enter valid template name";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                onSaved: (value) {
+                                  _templateName = value as String;
+                                },
+                                autofocus: true,
+                                style: const TextStyle(
+                                    fontSize: 15.0, color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Template Name',
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 6.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 73, 57, 55)),
+                                    borderRadius: BorderRadius.circular(0.0),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(0.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ),
-                  ],
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _addDisplay();
+                                },
+                                child: Text("Add Display"),
+                                style: buttonStyle2,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

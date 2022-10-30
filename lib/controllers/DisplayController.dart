@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 
 class DisplayController with ChangeNotifier {
-  LocalStorage localStorage = new LocalStorage('userToken');
+  LocalStorage localStorage = new LocalStorage('access');
 
   List<DisplayModel> _displays = [];
 
@@ -37,25 +37,28 @@ class DisplayController with ChangeNotifier {
   }
 
   Future<bool> createDisplay(String name, String category, String templateName,
-      String catalogImage, String video, int productId) async {
+      int productId) async {
     var url = Uri.parse(
         "https://digital-display.betafore.com/api/v1/digital-display/displays/");
     var token = localStorage.getItem('access');
-
     try {
-      http.Response response = await http.post(url,
-          body: json.encode({
-            "name": name,
-            "category": category,
-            "template_name": templateName,
-            "catalogs[0]image": catalogImage,
-            "catalogs[0]video": video,
-            "products[0]": productId,
-          }));
-      var data = json.encode(response.body) as FormData;
+      var formdata = new Map<String, dynamic>();
+      formdata["name"] = name;
+      formdata["category"] = category;
+      formdata["template_name"] = templateName;
+      formdata["products[0]"] = 1;
+      http.Response response =
+          await http.post(url, body: json.encode(formdata), headers: {
+        "Content-Type": "application/json",
+        'Authorization':
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3MjMzNjEzLCJpYXQiOjE2NjcxNDcyMTMsImp0aSI6IjgyNDg0YWYzMDdmOTQ0YjNhMTQ5ZWIzN2NkNjIzNGI4IiwiaWQiOjV9.qc9fmF4B0V6NTwxsztBb6AkF78kU_06wommCa5gLgOo'
+      });
+      print(response.body);
+      var data = json.encode(response.body) as Map;
       print(data);
       return true;
     } catch (exception) {
+      Future.error("Something is wrong with the codes");
       return false;
     }
   }
