@@ -28,10 +28,11 @@ class ProductController with ChangeNotifier {
 
   // creating products
   Future<bool> createProduct(String category, String name, String unit,
-      String price, String salePrice, String image, String badge) async {
+      String price, String salePrice, String badge) async {
     var url = Uri.parse(
         "https://digital-display.betafore.com/api/v1/digital-display/products/");
     try {
+      
       http.Response response = await http.post(url,
           headers: {
             "Content-Type": "application/json",
@@ -42,7 +43,7 @@ class ProductController with ChangeNotifier {
             "unit": unit,
             "price": price,
             "sale_price": salePrice,
-            "image": image,
+            // "image": image,
             "badge": badge,
           }));
 

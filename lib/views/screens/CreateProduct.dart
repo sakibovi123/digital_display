@@ -56,15 +56,17 @@ class _CreateProductState extends State<CreateProduct> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.network(
-                        "https://images.template.net/89048/Ecommerce-Product-Flyer-Template.jpeg",
-                        height: 300,
-                        width: 500,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+                    // Container(
+                    //   padding: const EdgeInsets.all(8.0),
+                    //   child: Image.network(
+                    //     "https://images.template.net/89048/Ecommerce-Product-Flyer-Template.jpeg",
+                    //     height: 300,
+                    //     width: 500,
+                    //     fit: BoxFit.cover,
+                    //   ),
+                    // ),
+
+                    //ImageFormField(),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,

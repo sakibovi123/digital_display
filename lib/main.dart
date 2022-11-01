@@ -1,4 +1,5 @@
 import 'package:digitaldisplay/controllers/DisplayController.dart';
+import 'package:digitaldisplay/controllers/ProductController.dart';
 import 'package:digitaldisplay/controllers/UserController.dart';
 import 'package:digitaldisplay/views/screens/CreateDisplay.dart';
 import 'package:digitaldisplay/views/screens/CreateProduct.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => UserController()),
         ChangeNotifierProvider(create: (ctx) => DisplayController()),
+        ChangeNotifierProvider(create: (ctx) => ProductController()),
       ],
       child: MaterialApp(
         title: 'Digital Display',

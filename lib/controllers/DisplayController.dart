@@ -4,8 +4,11 @@ import 'package:digitaldisplay/models/DisplayModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
+import 'package:dio/dio.dart';
 
 class DisplayController with ChangeNotifier {
+  String url =
+      "https://digital-display.betafore.com/api/v1/digital-display/displays/";
   LocalStorage localStorage = new LocalStorage('access');
 
   List<DisplayModel> _displays = [];
@@ -36,27 +39,56 @@ class DisplayController with ChangeNotifier {
     return [..._displays];
   }
 
-  Future<bool> createDisplay(String name, String category, String templateName,
-      int productId) async {
+  // Future createDisplay(String name, String category, String templateName,
+  //     String productId) async {
+  //   try {
+  //     Dio dio = new Dio();
+  //     FormData formData = FormData.fromMap({
+  //       "name": name,
+  //       "category": category,
+  //       "template_name": templateName,
+  //       "products[0]": productId
+  //     });
+  //     dio.options.headers["Authorization"] =
+  //         "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3MzIzNTc4LCJpYXQiOjE2NjcyMzcxNzgsImp0aSI6ImZkMzFiZmY1MjNhZjQyMjI5OTFjNDE4OTQ1MzM2YmY5IiwiaWQiOjV9.dJLANrLLojUOCu3MoNHgPGZELz8Br1ls44It7VB46tc";
+  //     var response = await Dio().post(url, data: formData);
+
+  //     if (response.statusCode == 200) {
+  //       print(response.data);
+
+  //       notifyListeners();
+  //     } else {
+  //       print("ERROR VAI ERROR");
+  //     }
+  //   } on DioError catch (e) {
+  //     print(e);
+  //   }
+  // }
+
+  Future createDisplay(String name, String category, String templateName,
+      String productId) async {
     var url = Uri.parse(
         "https://digital-display.betafore.com/api/v1/digital-display/displays/");
     var token = localStorage.getItem('access');
     try {
-      var formdata = new Map<String, dynamic>();
-      formdata["name"] = name;
-      formdata["category"] = category;
-      formdata["template_name"] = templateName;
-      formdata["products[0]"] = 1;
+      var formdata = FormData.fromMap({
+        "name": name,
+        "category": category,
+        "template_name": templateName,
+        "products": [productId]
+      });
       http.Response response =
           await http.post(url, body: json.encode(formdata), headers: {
         "Content-Type": "application/json",
         'Authorization':
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3MjMzNjEzLCJpYXQiOjE2NjcxNDcyMTMsImp0aSI6IjgyNDg0YWYzMDdmOTQ0YjNhMTQ5ZWIzN2NkNjIzNGI4IiwiaWQiOjV9.qc9fmF4B0V6NTwxsztBb6AkF78kU_06wommCa5gLgOo'
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3MzIzNTc4LCJpYXQiOjE2NjcyMzcxNzgsImp0aSI6ImZkMzFiZmY1MjNhZjQyMjI5OTFjNDE4OTQ1MzM2YmY5IiwiaWQiOjV9.dJLANrLLojUOCu3MoNHgPGZELz8Br1ls44It7VB46tc'
       });
-      print(response.body);
-      var data = json.encode(response.body) as Map;
-      print(data);
-      return true;
+      var data = json.decode(response.body) as FormData;
+      if (response.statusCode == 200) {
+        print(response.body);
+      } else {
+        return Future.error("Code Problem");
+      }
     } catch (exception) {
       Future.error("Something is wrong with the codes");
       return false;

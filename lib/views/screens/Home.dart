@@ -1,4 +1,5 @@
 import 'package:digitaldisplay/views/screens/CreateDisplay.dart';
+import 'package:digitaldisplay/views/screens/CreateProduct.dart';
 import 'package:digitaldisplay/views/widgets/NavBar.dart';
 import 'package:digitaldisplay/views/widgets/Package.dart';
 import 'package:flutter/material.dart';
@@ -87,7 +88,10 @@ class _HomeState extends State<Home> {
               Padding(
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context)
+                        .pushReplacementNamed(CreateProduct.routeName);
+                  },
                   child: Text("Create Product"),
                   style: buttonStyle2,
                 ),

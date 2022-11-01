@@ -19,7 +19,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
   String _name = "";
   String _category = "";
   String _templateName = "";
-  String product = "1";
+  String _product = "";
   // String catelogImage = "";
   // String video = "";
   //String productId = "";
@@ -33,7 +33,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
     }
     _form.currentState!.save();
     bool create = await Provider.of<DisplayController>(context, listen: false)
-        .createDisplay(_name, _category, _templateName, 1);
+        .createDisplay(_name, _category, _templateName, _product);
     if (create) {
       showDialog(
           context: context,
@@ -333,6 +333,45 @@ class _CreateDisplayState extends State<CreateDisplay> {
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
                                   hintText: 'Template Name',
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  contentPadding: const EdgeInsets.only(
+                                      left: 14.0, bottom: 6.0, top: 8.0),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderSide: const BorderSide(
+                                        color: Color.fromARGB(255, 73, 57, 55)),
+                                    borderRadius: BorderRadius.circular(0.0),
+                                  ),
+                                  enabledBorder: UnderlineInputBorder(
+                                    borderSide:
+                                        const BorderSide(color: Colors.grey),
+                                    borderRadius: BorderRadius.circular(0.0),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            child: Padding(
+                              padding: EdgeInsets.all(10),
+                              child: TextFormField(
+                                keyboardType: TextInputType.number,
+                                validator: (v) {
+                                  if (v!.isEmpty) {
+                                    return "Please enter valid product Id";
+                                  } else {
+                                    return null;
+                                  }
+                                },
+                                onSaved: (value) {
+                                  _product = value as String;
+                                },
+                                autofocus: true,
+                                style: const TextStyle(
+                                    fontSize: 15.0, color: Colors.black),
+                                decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  hintText: 'Product Id',
                                   filled: true,
                                   fillColor: Colors.white,
                                   contentPadding: const EdgeInsets.only(
