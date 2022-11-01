@@ -19,12 +19,14 @@ class _CreateDisplayState extends State<CreateDisplay> {
   String _name = "";
   String _category = "";
   String _templateName = "";
-  String _product = "";
+  late int _product;
   // String catelogImage = "";
   // String video = "";
   //String productId = "";
 
   final _form = GlobalKey<FormState>();
+
+  DisplayController displayController = DisplayController();
 
   void _addDisplay() async {
     var isValid = _form.currentState!.validate();
@@ -364,7 +366,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
                                   }
                                 },
                                 onSaved: (value) {
-                                  _product = value as String;
+                                  _product = value as int;
                                 },
                                 autofocus: true,
                                 style: const TextStyle(
@@ -401,7 +403,8 @@ class _CreateDisplayState extends State<CreateDisplay> {
                               padding: const EdgeInsets.all(8.0),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  _addDisplay();
+                                  displayController.createDisplay(
+                                      "name", "category", "templateName", 1);
                                 },
                                 child: Text("Add Display"),
                                 style: buttonStyle2,

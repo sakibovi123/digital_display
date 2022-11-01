@@ -39,7 +39,7 @@ class DisplayController with ChangeNotifier {
     return [..._displays];
   }
 
-  // Future createDisplay(String name, String category, String templateName,
+  // Future addDisplay11(String name, String category, String templateName,
   //     String productId) async {
   //   try {
   //     Dio dio = new Dio();
@@ -65,23 +65,30 @@ class DisplayController with ChangeNotifier {
   //   }
   // }
 
-  Future createDisplay(String name, String category, String templateName,
-      String productId) async {
+  Future createDisplay(
+      String name, String category, String templateName, int productId) async {
     var url = Uri.parse(
         "https://digital-display.betafore.com/api/v1/digital-display/displays/");
     var token = localStorage.getItem('access');
     try {
-      var formdata = FormData.fromMap({
-        "name": name,
-        "category": category,
-        "template_name": templateName,
-        "products": [productId]
-      });
-      http.Response response =
-          await http.post(url, body: json.encode(formdata), headers: {
-        "Content-Type": "application/json",
+      // var formdata = FormData.fromMap({
+      //   "name": name,
+      //   "category": category,
+      //   "template_name": templateName,
+      //   "products": [productId]
+      // });
+
+      var formdata = new Map<String, dynamic>();
+
+      formdata["name"] = name;
+      formdata["category"] = category;
+      formdata["template_name"] = templateName;
+      formdata["products"] = [productId];
+
+      http.Response response = await http.post(url, body: formdata, headers: {
+        "Content-Type": "multipart/form-data",
         'Authorization':
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3MzIzNTc4LCJpYXQiOjE2NjcyMzcxNzgsImp0aSI6ImZkMzFiZmY1MjNhZjQyMjI5OTFjNDE4OTQ1MzM2YmY5IiwiaWQiOjV9.dJLANrLLojUOCu3MoNHgPGZELz8Br1ls44It7VB46tc'
+            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NDEwNDg5LCJpYXQiOjE2NjczMjQwODksImp0aSI6IjQyMGZmNTVlMDJiOTQ4ZDRiOWQ0ZDE3MDc2N2MxOTAyIiwiaWQiOjV9.ahiTZRh-7p8vk_MASXpoMOwP9YliTSAslpO6-ddXRDc'
       });
       var data = json.decode(response.body) as FormData;
       if (response.statusCode == 200) {
@@ -90,7 +97,7 @@ class DisplayController with ChangeNotifier {
         return Future.error("Code Problem");
       }
     } catch (exception) {
-      Future.error("Something is wrong with the codes");
+      Future.error(exception);
       return false;
     }
   }
