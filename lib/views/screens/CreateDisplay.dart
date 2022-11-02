@@ -19,7 +19,8 @@ class _CreateDisplayState extends State<CreateDisplay> {
   String _name = "";
   String _category = "";
   String _templateName = "";
-  late int _product;
+  late int productId;
+  // String productId = "";
   // String catelogImage = "";
   // String video = "";
   //String productId = "";
@@ -35,8 +36,9 @@ class _CreateDisplayState extends State<CreateDisplay> {
     }
     _form.currentState!.save();
     bool create = await Provider.of<DisplayController>(context, listen: false)
-        .createDisplay(_name, _category, _templateName, _product);
+        .createDisplay(_name, _category, _templateName, productId);
     if (create) {
+      print(create);
       showDialog(
           context: context,
           builder: (context) {
@@ -357,7 +359,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
                             child: Padding(
                               padding: EdgeInsets.all(10),
                               child: TextFormField(
-                                keyboardType: TextInputType.number,
+                                // keyboardType: TextInputType.number,
                                 validator: (v) {
                                   if (v!.isEmpty) {
                                     return "Please enter valid product Id";
@@ -366,7 +368,9 @@ class _CreateDisplayState extends State<CreateDisplay> {
                                   }
                                 },
                                 onSaved: (value) {
-                                  _product = value as int;
+                                  productId = int.tryParse(value!)!;
+                                  //assert(productId is int);
+                                  print(productId);
                                 },
                                 autofocus: true,
                                 style: const TextStyle(
@@ -403,8 +407,9 @@ class _CreateDisplayState extends State<CreateDisplay> {
                               padding: const EdgeInsets.all(8.0),
                               child: ElevatedButton(
                                 onPressed: () {
-                                  displayController.createDisplay(
-                                      "name", "category", "templateName", 1);
+                                  _addDisplay();
+                                  // displayController.createDisplay(
+                                  //     "name", "category", "templateName", "1");
                                 },
                                 child: Text("Add Display"),
                                 style: buttonStyle2,

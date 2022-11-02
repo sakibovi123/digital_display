@@ -65,7 +65,7 @@ class DisplayController with ChangeNotifier {
   //   }
   // }
 
-  Future createDisplay(
+  Future<bool> createDisplay(
       String name, String category, String templateName, int productId) async {
     var url = Uri.parse(
         "https://digital-display.betafore.com/api/v1/digital-display/displays/");
@@ -78,24 +78,59 @@ class DisplayController with ChangeNotifier {
       //   "products": [productId]
       // });
 
-      var formdata = new Map<String, dynamic>();
+      // var formdata = new Map<String, String>();
 
-      formdata["name"] = name;
-      formdata["category"] = category;
-      formdata["template_name"] = templateName;
-      formdata["products"] = [productId];
+      // formdata["name"] = name;
+      // formdata["category"] = category;
+      // formdata["template_name"] = templateName;
+      // formdata["products[0]"] = productId.toString();
 
-      http.Response response = await http.post(url, body: formdata, headers: {
-        "Content-Type": "multipart/form-data",
-        'Authorization':
-            'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NDEwNDg5LCJpYXQiOjE2NjczMjQwODksImp0aSI6IjQyMGZmNTVlMDJiOTQ4ZDRiOWQ0ZDE3MDc2N2MxOTAyIiwiaWQiOjV9.ahiTZRh-7p8vk_MASXpoMOwP9YliTSAslpO6-ddXRDc'
+      // Map<String, String> headers = <String, String>{
+      //   'Authorization':
+      //       "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NDk0NTAwLCJpYXQiOjE2Njc0MDgxMDAsImp0aSI6ImY5NzRjODE4MThiMTQ2NjBiNmIzNmNmZDcwNWU1MDlhIiwiaWQiOjV9.fXHnaYDn5FT7NLzMTPPQE6HwIrMBF6HhpF1c8VHevAU"
+      // };
+
+      // http.Response response = await http.post(url, body: formdata, headers: {
+      //   //"Content-Type": "application/json",
+      //   "Content-Type": "multipart/form-data",
+      //   'Authorization':
+      //       'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NDEwNDg5LCJpYXQiOjE2NjczMjQwODksImp0aSI6IjQyMGZmNTVlMDJiOTQ4ZDRiOWQ0ZDE3MDc2N2MxOTAyIiwiaWQiOjV9.ahiTZRh-7p8vk_MASXpoMOwP9YliTSAslpO6-ddXRDc'
+      // });
+
+      var request = http.MultipartRequest("post", url);
+
+      request.headers.addAll({
+        "Authorization":
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NDk0NTAwLCJpYXQiOjE2Njc0MDgxMDAsImp0aSI6ImY5NzRjODE4MThiMTQ2NjBiNmIzNmNmZDcwNWU1MDlhIiwiaWQiOjV9.fXHnaYDn5FT7NLzMTPPQE6HwIrMBF6HhpF1c8VHevAU"
       });
-      var data = json.decode(response.body) as FormData;
+
+      request.fields["name"] = json.encode(name);
+      request.fields["category"] = json.encode(category);
+      request.fields["template_name"] = json.encode(templateName);
+      request.fields["products"] = json.encode([productId.toString()]);
+
+      var response = await request.send();
       if (response.statusCode == 200) {
-        print(response.body);
+        print("Data Saved");
+        return true;
       } else {
-        return Future.error("Code Problem");
+        Future.error("Error");
+        return false;
       }
+      // if (response.statusCode == 200) {
+      //   print(response);
+      //   return true;
+      // } else {
+      //   print("Error");
+      //   return false;
+      // }
+
+      // var data = json.decode(response.body) as Map;
+      // if (response.statusCode == 200) {
+      //   print(response.body);
+      // } else {
+      //   return Future.error("Code Problem");
+      // }
     } catch (exception) {
       Future.error(exception);
       return false;
