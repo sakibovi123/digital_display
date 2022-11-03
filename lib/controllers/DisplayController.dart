@@ -1,10 +1,10 @@
 import 'dart:convert';
-import 'dart:html';
 import 'package:digitaldisplay/models/DisplayModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'package:dio/dio.dart';
+import 'dart:io';
 
 class DisplayController with ChangeNotifier {
   String url =
@@ -39,100 +39,73 @@ class DisplayController with ChangeNotifier {
     return [..._displays];
   }
 
-  // Future addDisplay11(String name, String category, String templateName,
-  //     String productId) async {
-  //   try {
-  //     Dio dio = new Dio();
-  //     FormData formData = FormData.fromMap({
-  //       "name": name,
-  //       "category": category,
-  //       "template_name": templateName,
-  //       "products[0]": productId
-  //     });
-  //     dio.options.headers["Authorization"] =
-  //         "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3MzIzNTc4LCJpYXQiOjE2NjcyMzcxNzgsImp0aSI6ImZkMzFiZmY1MjNhZjQyMjI5OTFjNDE4OTQ1MzM2YmY5IiwiaWQiOjV9.dJLANrLLojUOCu3MoNHgPGZELz8Br1ls44It7VB46tc";
-  //     var response = await Dio().post(url, data: formData);
-
-  //     if (response.statusCode == 200) {
-  //       print(response.data);
-
-  //       notifyListeners();
-  //     } else {
-  //       print("ERROR VAI ERROR");
-  //     }
-  //   } on DioError catch (e) {
-  //     print(e);
-  //   }
-  // }
-
-  Future<bool> createDisplay(
-      String name, String category, String templateName, int productId) async {
-    var url = Uri.parse(
-        "https://digital-display.betafore.com/api/v1/digital-display/displays/");
-    var token = localStorage.getItem('access');
+  Future<bool> addDisplay(String name, String category, String templateName,
+      File catalogsImage, String catalogsVideo, int productId) async {
     try {
-      // var formdata = FormData.fromMap({
-      //   "name": name,
-      //   "category": category,
-      //   "template_name": templateName,
-      //   "products": [productId]
-      // });
-
-      // var formdata = new Map<String, String>();
-
-      // formdata["name"] = name;
-      // formdata["category"] = category;
-      // formdata["template_name"] = templateName;
-      // formdata["products[0]"] = productId.toString();
-
-      // Map<String, String> headers = <String, String>{
-      //   'Authorization':
-      //       "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NDk0NTAwLCJpYXQiOjE2Njc0MDgxMDAsImp0aSI6ImY5NzRjODE4MThiMTQ2NjBiNmIzNmNmZDcwNWU1MDlhIiwiaWQiOjV9.fXHnaYDn5FT7NLzMTPPQE6HwIrMBF6HhpF1c8VHevAU"
-      // };
-
-      // http.Response response = await http.post(url, body: formdata, headers: {
-      //   //"Content-Type": "application/json",
-      //   "Content-Type": "multipart/form-data",
-      //   'Authorization':
-      //       'Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NDEwNDg5LCJpYXQiOjE2NjczMjQwODksImp0aSI6IjQyMGZmNTVlMDJiOTQ4ZDRiOWQ0ZDE3MDc2N2MxOTAyIiwiaWQiOjV9.ahiTZRh-7p8vk_MASXpoMOwP9YliTSAslpO6-ddXRDc'
-      // });
-
-      var request = http.MultipartRequest("post", url);
-
-      request.headers.addAll({
-        "Authorization":
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NDk0NTAwLCJpYXQiOjE2Njc0MDgxMDAsImp0aSI6ImY5NzRjODE4MThiMTQ2NjBiNmIzNmNmZDcwNWU1MDlhIiwiaWQiOjV9.fXHnaYDn5FT7NLzMTPPQE6HwIrMBF6HhpF1c8VHevAU"
+      // String fileName = catalogsImage.path.split('/').last;
+      Dio dio = new Dio();
+      FormData formData = FormData.fromMap({
+        "name": name,
+        "category": category,
+        "template_name": templateName,
+        "catalogs[0]image": await MultipartFile.fromFile(catalogsImage.path),
+        "catalogs[0]video": catalogsVideo,
+        "products[0]": productId
       });
+      // dio.options.headers["Authorization"] =
+      //     "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NTQ0MTU5LCJpYXQiOjE2Njc0NTc3NTksImp0aSI6ImY2Mjk4MjM5ZWM0ZTQzY2VhMTRkYjFlZDliMTgxZTY4IiwiaWQiOjV9.S9N23F0Qrh5aa7qJdzSAPX__0zIU-swlwBVb5ZZkM6s";
+      var response = await Dio().post(url,
+          data: formData,
+          options: Options(headers: {
+            "Authorization":
+                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NTQ0MTU5LCJpYXQiOjE2Njc0NTc3NTksImp0aSI6ImY2Mjk4MjM5ZWM0ZTQzY2VhMTRkYjFlZDliMTgxZTY4IiwiaWQiOjV9.S9N23F0Qrh5aa7qJdzSAPX__0zIU-swlwBVb5ZZkM6s"
+          }));
 
-      request.fields["name"] = json.encode(name);
-      request.fields["category"] = json.encode(category);
-      request.fields["template_name"] = json.encode(templateName);
-      request.fields["products"] = json.encode([productId.toString()]);
-
-      var response = await request.send();
       if (response.statusCode == 200) {
-        print("Data Saved");
+        print(response.data);
+        notifyListeners();
         return true;
       } else {
-        Future.error("Error");
+        print("ERROR VAI ERROR");
         return false;
       }
-      // if (response.statusCode == 200) {
-      //   print(response);
-      //   return true;
-      // } else {
-      //   print("Error");
-      //   return false;
-      // }
+    } on DioError catch (e) {
+      print(e);
+      return false;
+    }
+  }
 
-      // var data = json.decode(response.body) as Map;
-      // if (response.statusCode == 200) {
-      //   print(response.body);
-      // } else {
-      //   return Future.error("Code Problem");
-      // }
-    } catch (exception) {
-      Future.error(exception);
+  Future<bool> editDisplay(String name, String category, String templateName,
+      String catalogsImage, String catalogsVideo, int productId) async {
+    try {
+      Dio dio = new Dio();
+      FormData formData = FormData.fromMap({
+        "name": name,
+        "category": category,
+        "template_name": templateName,
+        "catalogs[0]image": catalogsImage,
+        "catalogs[0]video": catalogsVideo,
+        "products[0]": productId
+      });
+      // dio.options.headers["Authorization"] =
+      //     "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NTQ0MTU5LCJpYXQiOjE2Njc0NTc3NTksImp0aSI6ImY2Mjk4MjM5ZWM0ZTQzY2VhMTRkYjFlZDliMTgxZTY4IiwiaWQiOjV9.S9N23F0Qrh5aa7qJdzSAPX__0zIU-swlwBVb5ZZkM6s";
+      var response = await Dio().post(url,
+          data: formData,
+          options: Options(headers: {
+            "Authorization":
+                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NTQ0MTU5LCJpYXQiOjE2Njc0NTc3NTksImp0aSI6ImY2Mjk4MjM5ZWM0ZTQzY2VhMTRkYjFlZDliMTgxZTY4IiwiaWQiOjV9.S9N23F0Qrh5aa7qJdzSAPX__0zIU-swlwBVb5ZZkM6s"
+          }));
+
+      if (response.statusCode == 200) {
+        print(response.data);
+        notifyListeners();
+        return true;
+      } else {
+        print("ERROR VAI ERROR");
+        return false;
+      }
+    } on DioError catch (e) {
+      print(e);
       return false;
     }
   }

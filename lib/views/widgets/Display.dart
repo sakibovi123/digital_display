@@ -104,9 +104,10 @@ class DisplayCard extends StatelessWidget {
             ],
           ),
           Image.network(
-            "https://previews.123rf.com/images/avectors/avectors1808/avectors180800059/112204142-digital-numbers-vector-set-of-lcd-or-led-display-with-electronic-number-or-calculator-digits-on-blac.jpg?fj=1",
+            "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/digital-marketing-agency-flyer-design-template-d3559a36a07943d6b514636b8fab4f8b_screen.jpg?ts=1637039910",
             fit: BoxFit.cover,
             width: double.infinity,
+            height: 200,
           ),
           Container(height: 20),
           Row(

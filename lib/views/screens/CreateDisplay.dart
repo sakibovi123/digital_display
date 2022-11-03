@@ -1,10 +1,13 @@
+// ignore_for_file: sized_box_for_whitespace
 import 'package:digitaldisplay/controllers/DisplayController.dart';
 import 'package:digitaldisplay/views/widgets/Display.dart';
 import 'package:digitaldisplay/views/widgets/ProductDisplayCard.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
+import 'dart:io';
 
 class CreateDisplay extends StatefulWidget {
   const CreateDisplay({super.key});
@@ -16,14 +19,14 @@ class CreateDisplay extends StatefulWidget {
 }
 
 class _CreateDisplayState extends State<CreateDisplay> {
+  final ImagePicker picker = ImagePicker();
+
   String _name = "";
   String _category = "";
   String _templateName = "";
+  File? catalogImage;
+  String _catalogVideo = "";
   late int productId;
-  // String productId = "";
-  // String catelogImage = "";
-  // String video = "";
-  //String productId = "";
 
   final _form = GlobalKey<FormState>();
 
@@ -36,7 +39,8 @@ class _CreateDisplayState extends State<CreateDisplay> {
     }
     _form.currentState!.save();
     bool create = await Provider.of<DisplayController>(context, listen: false)
-        .createDisplay(_name, _category, _templateName, productId);
+        .addDisplay(_name, _category, _templateName, catalogImage!,
+            _catalogVideo, productId);
     if (create) {
       print(create);
       showDialog(
@@ -129,8 +133,8 @@ class _CreateDisplayState extends State<CreateDisplay> {
               children: [
                 Container(
                     width: 1600,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    child: const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text(
                         "Categories",
                         style: TextStyle(
@@ -407,6 +411,20 @@ class _CreateDisplayState extends State<CreateDisplay> {
                               padding: const EdgeInsets.all(8.0),
                               child: ElevatedButton(
                                 onPressed: () {
+                                  _getImageFromGallery();
+                                  // displayController.createDisplay(
+                                  //     "name", "category", "templateName", "1");
+                                },
+                                child: Text("Add Image"),
+                                style: buttonStyle2,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                onPressed: () {
                                   _addDisplay();
                                   // displayController.createDisplay(
                                   //     "name", "category", "templateName", "1");
@@ -592,5 +610,14 @@ class _CreateDisplayState extends State<CreateDisplay> {
         ),
       ),
     );
+  }
+
+  void _getImageFromGallery() async {
+    XFile? pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        catalogImage = File(pickedFile.path);
+      });
+    }
   }
 }
