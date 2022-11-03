@@ -1,9 +1,9 @@
-import 'dart:html';
-
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 import 'package:localstorage/localstorage.dart';
 import 'dart:convert';
+import 'dart:io';
+import 'package:dio/dio.dart';
 
 class ProductController with ChangeNotifier {
   LocalStorage localStorage = new LocalStorage('userToken');
@@ -21,103 +21,82 @@ class ProductController with ChangeNotifier {
       } else {
         return Future.error("Something went Wrong!");
       }
-    } catch (SocketException) {
-      return Future.error("Error Fetching Data!");
+    } catch (e) {
+      return Future.error(e);
     }
   }
 
   // creating products
-  Future<bool> createProduct(String category, String name, String unit,
-      String price, String salePrice, String badge) async {
-    var url = Uri.parse(
-        "https://digital-display.betafore.com/api/v1/digital-display/products/");
-    try {
-      
-      http.Response response = await http.post(url,
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: json.encode({
-            "category": category,
-            "name": name,
-            "unit": unit,
-            "price": price,
-            "sale_price": salePrice,
-            // "image": image,
-            "badge": badge,
-          }));
 
-      var data = json.decode(response.body) as FormData;
+  Future<bool> createProduct(String name, String price, File image) async {
+    try {
+      Dio dio = Dio();
+      var token = localStorage.getItem("access");
+      FormData formData = FormData.fromMap({
+        "name": name,
+        "price": price,
+        "image": await MultipartFile.fromFile(image.path)
+      });
+      var response = await dio.post(url,
+          data: formData,
+          options: Options(headers: {"Authorization": "Bearer $token"}));
+
       if (response.statusCode == 200) {
+        print(response);
+        notifyListeners();
         return true;
       } else {
         return false;
       }
-    } catch (APIException) {
-      print(APIException);
-      return Future.error("API ERROR");
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 
-  // editing products
+  // Editing Product
 
-  Future<bool> editProduct(
-      int productId,
-      String category,
-      String name,
-      String unit,
-      String price,
-      String salePrice,
-      String image,
-      String badge) async {
-    var url = Uri.parse(
-        "https://digital-display.betafore.com/api/v1/digital-display/products/{$productId}/");
+  Future<bool> editProduct(String name, String price, File image) async {
     try {
-      http.Response response = await http.put(url,
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: json.encode({
-            "category": category,
-            "name": name,
-            "unit": unit,
-            "price": price,
-            "sale_price": salePrice,
-            "image": image,
-            "badge": badge,
-          }));
+      Dio dio = Dio();
+      var token = localStorage.getItem("access");
+      FormData formData = FormData.fromMap({
+        "name": name,
+        "price": price,
+        "image": await MultipartFile.fromFile(image.path)
+      });
+      var response = await dio.post(url,
+          data: formData,
+          options: Options(headers: {"Authorization": "Bearer $token"}));
 
-      var data = json.decode(response.body) as FormData;
       if (response.statusCode == 200) {
+        print(response);
+        notifyListeners();
         return true;
       } else {
         return false;
       }
-    } catch (APIException) {
-      print(APIException);
-      return Future.error("API ERROR");
+    } catch (e) {
+      print(e);
+      return false;
     }
   }
 
 // deleting products
 
-  Future<void> deleteProduct(int id) async {
-    var url = Uri.parse(
-        "https://digital-display.betafore.com/api/v1/digital-display/displays/");
-    var token = localStorage.getItem('access');
-    try {
-      http.Response response = await http.delete(url,
-          body: json.encode({
-            'id': id,
-          }),
-          headers: {
-            "Content-Type": "application/json",
-            'Authorization': "token $token"
-          });
-      var data = json.decode(response.body) as Map;
-      print(data);
-    } catch (error) {
-      print(error);
+  Future deleteProduct(int productId) async {
+    Dio dio = Dio();
+    var token = localStorage.getItem("access");
+
+    var response = await dio.delete(url,
+        options: Options(headers: {
+          "Authorization": "Bearer $token",
+        }));
+
+    if (response.statusCode == 200) {
+      return response;
+    } else {
+      return Future.error("Delete Request Failed!");
     }
   }
 }

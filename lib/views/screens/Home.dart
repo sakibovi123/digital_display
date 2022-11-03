@@ -70,7 +70,7 @@ class _HomeState extends State<Home> {
           ),
           Flexible(
             child: GridView.count(
-                crossAxisCount: 5,
+                crossAxisCount: 4,
                 children: List.generate(10, (i) => const DisplayCard())),
           ),
           Row(

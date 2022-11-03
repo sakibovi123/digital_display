@@ -9,7 +9,7 @@ import 'dart:io';
 class DisplayController with ChangeNotifier {
   String url =
       "https://digital-display.betafore.com/api/v1/digital-display/displays/";
-  LocalStorage localStorage = new LocalStorage('access');
+  LocalStorage localStorage = LocalStorage('access');
 
   List<DisplayModel> _displays = [];
 
@@ -21,12 +21,11 @@ class DisplayController with ChangeNotifier {
     try {
       http.Response response = await http.get(url);
       var data = json.decode(response.body) as List;
-      print(data);
       List<DisplayModel> temp = [];
-      data.forEach((element) {
-        //DisplayModel displayModel = DisplayModel.fromJson(element);
-        //temp.add(displayModel);
-      });
+      for (var element in data) {
+        DisplayModel displayModel = DisplayModel.fromJson(element);
+        temp.add(displayModel);
+      }
       _displays = temp;
       notifyListeners();
       return true;
@@ -40,33 +39,28 @@ class DisplayController with ChangeNotifier {
   }
 
   Future<bool> addDisplay(String name, String category, String templateName,
-      File catalogsImage, String catalogsVideo, int productId) async {
+      File catalogsImage, File catalogsVideo, int productId) async {
     try {
       // String fileName = catalogsImage.path.split('/').last;
-      Dio dio = new Dio();
+      var token = localStorage.getItem('access');
+      Dio dio = Dio();
       FormData formData = FormData.fromMap({
         "name": name,
         "category": category,
         "template_name": templateName,
         "catalogs[0]image": await MultipartFile.fromFile(catalogsImage.path),
-        "catalogs[0]video": catalogsVideo,
+        "catalogs[0]video": await MultipartFile.fromFile(catalogsVideo.path),
         "products[0]": productId
       });
-      // dio.options.headers["Authorization"] =
-      //     "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NTQ0MTU5LCJpYXQiOjE2Njc0NTc3NTksImp0aSI6ImY2Mjk4MjM5ZWM0ZTQzY2VhMTRkYjFlZDliMTgxZTY4IiwiaWQiOjV9.S9N23F0Qrh5aa7qJdzSAPX__0zIU-swlwBVb5ZZkM6s";
-      var response = await Dio().post(url,
+
+      var response = await dio.post(url,
           data: formData,
-          options: Options(headers: {
-            "Authorization":
-                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NTQ0MTU5LCJpYXQiOjE2Njc0NTc3NTksImp0aSI6ImY2Mjk4MjM5ZWM0ZTQzY2VhMTRkYjFlZDliMTgxZTY4IiwiaWQiOjV9.S9N23F0Qrh5aa7qJdzSAPX__0zIU-swlwBVb5ZZkM6s"
-          }));
+          options: Options(headers: {"Authorization": "Bearer $token"}));
 
       if (response.statusCode == 200) {
-        print(response.data);
         notifyListeners();
         return true;
       } else {
-        print("ERROR VAI ERROR");
         return false;
       }
     } on DioError catch (e) {
@@ -77,6 +71,7 @@ class DisplayController with ChangeNotifier {
 
   Future<bool> editDisplay(String name, String category, String templateName,
       String catalogsImage, String catalogsVideo, int productId) async {
+    var token = localStorage.getItem('access');
     try {
       Dio dio = new Dio();
       FormData formData = FormData.fromMap({
@@ -91,10 +86,7 @@ class DisplayController with ChangeNotifier {
       //     "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NTQ0MTU5LCJpYXQiOjE2Njc0NTc3NTksImp0aSI6ImY2Mjk4MjM5ZWM0ZTQzY2VhMTRkYjFlZDliMTgxZTY4IiwiaWQiOjV9.S9N23F0Qrh5aa7qJdzSAPX__0zIU-swlwBVb5ZZkM6s";
       var response = await Dio().post(url,
           data: formData,
-          options: Options(headers: {
-            "Authorization":
-                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NTQ0MTU5LCJpYXQiOjE2Njc0NTc3NTksImp0aSI6ImY2Mjk4MjM5ZWM0ZTQzY2VhMTRkYjFlZDliMTgxZTY4IiwiaWQiOjV9.S9N23F0Qrh5aa7qJdzSAPX__0zIU-swlwBVb5ZZkM6s"
-          }));
+          options: Options(headers: {"Authorization": "Bearer $token"}));
 
       if (response.statusCode == 200) {
         print(response.data);

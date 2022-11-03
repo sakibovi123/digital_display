@@ -1,10 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace
 import 'package:digitaldisplay/controllers/DisplayController.dart';
 import 'package:digitaldisplay/views/widgets/Display.dart';
-import 'package:digitaldisplay/views/widgets/ProductDisplayCard.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
@@ -25,7 +22,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
   String _category = "";
   String _templateName = "";
   File? catalogImage;
-  String _catalogVideo = "";
+  File? _catalogVideo;
   late int productId;
 
   final _form = GlobalKey<FormState>();
@@ -40,7 +37,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
     _form.currentState!.save();
     bool create = await Provider.of<DisplayController>(context, listen: false)
         .addDisplay(_name, _category, _templateName, catalogImage!,
-            _catalogVideo, productId);
+            _catalogVideo!, productId);
     if (create) {
       print(create);
       showDialog(
@@ -259,7 +256,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
                                 onSaved: (value) {
                                   _name = value as String;
                                 },
-                                autofocus: true,
+                                autofocus: false,
                                 style: const TextStyle(
                                     fontSize: 15.0, color: Colors.black),
                                 decoration: InputDecoration(
@@ -297,7 +294,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
                                 onSaved: (value) {
                                   _category = value as String;
                                 },
-                                autofocus: true,
+                                autofocus: false,
                                 style: const TextStyle(
                                     fontSize: 15.0, color: Colors.black),
                                 decoration: InputDecoration(
@@ -335,7 +332,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
                                 onSaved: (value) {
                                   _templateName = value as String;
                                 },
-                                autofocus: true,
+                                autofocus: false,
                                 style: const TextStyle(
                                     fontSize: 15.0, color: Colors.black),
                                 decoration: InputDecoration(
@@ -376,7 +373,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
                                   //assert(productId is int);
                                   print(productId);
                                 },
-                                autofocus: true,
+                                autofocus: false,
                                 style: const TextStyle(
                                     fontSize: 15.0, color: Colors.black),
                                 decoration: InputDecoration(
@@ -416,6 +413,20 @@ class _CreateDisplayState extends State<CreateDisplay> {
                                   //     "name", "category", "templateName", "1");
                                 },
                                 child: Text("Add Image"),
+                                style: buttonStyle2,
+                              ),
+                            ),
+                          ),
+                          Flexible(
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ElevatedButton(
+                                onPressed: () {
+                                  _getVideoFromGallery();
+                                  // displayController.createDisplay(
+                                  //     "name", "category", "templateName", "1");
+                                },
+                                child: Text("Add Video"),
                                 style: buttonStyle2,
                               ),
                             ),
@@ -491,7 +502,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
                               child: Container(
                                 width: 900,
                                 child: TextField(
-                                  autofocus: true,
+                                  autofocus: false,
                                   style: const TextStyle(
                                       fontSize: 15.0, color: Colors.black),
                                   decoration: InputDecoration(
@@ -521,7 +532,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
                               child: Container(
                                 width: 500,
                                 child: TextField(
-                                  autofocus: true,
+                                  autofocus: false,
                                   style: const TextStyle(
                                       fontSize: 15.0, color: Colors.black),
                                   decoration: InputDecoration(
@@ -617,6 +628,15 @@ class _CreateDisplayState extends State<CreateDisplay> {
     if (pickedFile != null) {
       setState(() {
         catalogImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  void _getVideoFromGallery() async {
+    XFile? filepick = await picker.pickImage(source: ImageSource.gallery);
+    if (filepick != null) {
+      setState(() {
+        _catalogVideo = File(filepick.path);
       });
     }
   }
