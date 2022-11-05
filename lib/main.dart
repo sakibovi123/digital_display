@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => UserController()),
         ChangeNotifierProvider(create: (ctx) => DisplayController()),
-        ChangeNotifierProvider(create: (ctx) => ProductController()),
+        // ChangeNotifierProvider(create: (ctx) => ProductController()),
       ],
       child: MaterialApp(
         title: 'Digital Display',

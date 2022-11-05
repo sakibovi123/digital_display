@@ -109,18 +109,18 @@ class _CreateDisplayState extends State<CreateDisplay> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Container(
-                    height: 350,
-                    width: 1600,
-                    child: GridView.count(
-                      crossAxisCount: 1,
-                      scrollDirection: Axis.horizontal,
-                      children: List.generate(6, (i) => const DisplayCard()),
-                    ),
-                  ),
-                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Container(
+                //     height: 350,
+                //     width: 900,
+                //     child: GridView.count(
+                //       crossAxisCount: 1,
+                //       scrollDirection: Axis.horizontal,
+                //       children: List.generate(6, (i) => const DisplayCard()),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
             const SizedBox(height: 20),
@@ -129,7 +129,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    width: 1600,
+                    width: 900,
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
@@ -144,7 +144,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
             ),
             Center(
               child: Container(
-                  width: 1600,
+                  width: 900,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -166,7 +166,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
               children: [
                 Container(
                   height: 2,
-                  width: 1600,
+                  width: 900,
                   color: Colors.grey,
                 ),
               ],
@@ -181,7 +181,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
               children: [
                 Container(
                   height: 40,
-                  width: 1600,
+                  width: 900,
                   color: Colors.black,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -210,7 +210,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
                 Container(
                   // alignment: Alignment.center,
                   height: 2,
-                  width: 1600,
+                  width: 900,
                   color: Colors.grey,
                 ),
               ],
@@ -221,7 +221,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
             Center(
               child: Container(
                 height: 180,
-                width: 1600,
+                width: 900,
                 decoration: BoxDecoration(
                     color: Colors.black,
                     borderRadius: BorderRadius.circular(0.0),
@@ -458,7 +458,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                    width: 1600,
+                    width: 900,
                     child: const Padding(
                       padding: EdgeInsets.all(8.0),
                       child: Text(
@@ -477,7 +477,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Container(
-                  width: 1600,
+                  width: 900,
                   decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(0.0),
                       border: Border.all(color: Colors.grey)),
@@ -500,7 +500,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
                             Padding(
                               padding: EdgeInsets.all(10),
                               child: Container(
-                                width: 900,
+                                width: 350,
                                 child: TextField(
                                   autofocus: false,
                                   style: const TextStyle(
@@ -530,7 +530,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
                             Padding(
                               padding: EdgeInsets.all(10),
                               child: Container(
-                                width: 500,
+                                width: 350,
                                 child: TextField(
                                   autofocus: false,
                                   style: const TextStyle(
@@ -579,7 +579,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
             //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
             //   children: [
             //     Container(
-            //         width: 1600,
+            //         width: 900,
             //         child: const Padding(
             //           padding: EdgeInsets.all(8.0),
             //           child: ProductDisplayCard(),

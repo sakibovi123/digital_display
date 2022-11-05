@@ -17,6 +17,7 @@ class CreateProduct extends StatefulWidget {
 
 class _CreateProductState extends State<CreateProduct> {
   final ImagePicker picker = ImagePicker();
+  ProductController productController = ProductController();
 
   String _name = "";
   String _price = "";
@@ -103,7 +104,7 @@ class _CreateProductState extends State<CreateProduct> {
                 padding: const EdgeInsets.all(8.0),
                 child: Center(
                     child: Container(
-                  width: 1600,
+                  width: 900,
                   decoration: BoxDecoration(
                     border: Border.all(color: Colors.grey),
                     borderRadius: BorderRadius.circular(2.0),
@@ -150,7 +151,7 @@ class _CreateProductState extends State<CreateProduct> {
                           Padding(
                             padding: EdgeInsets.all(10),
                             child: Container(
-                              width: 900,
+                              width: 400,
                               child: TextFormField(
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -189,7 +190,7 @@ class _CreateProductState extends State<CreateProduct> {
                           Padding(
                             padding: EdgeInsets.all(10),
                             child: Container(
-                              width: 900,
+                              width: 400,
                               child: TextFormField(
                                 validator: (value) {
                                   if (value!.isEmpty) {
@@ -287,7 +288,7 @@ class _CreateProductState extends State<CreateProduct> {
               // button
               Center(
                 child: Container(
-                  width: 1600,
+                  width: 900,
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     mainAxisAlignment: MainAxisAlignment.end,
@@ -309,16 +310,40 @@ class _CreateProductState extends State<CreateProduct> {
               Center(
                 child: Container(
                   height: 600,
-                  width: 1600,
-                  child: GridView.count(
-                    scrollDirection: Axis.vertical,
-                    physics: const ScrollPhysics(),
-                    mainAxisSpacing: 2,
-                    crossAxisSpacing: 15,
-                    shrinkWrap: true,
-                    crossAxisCount: 4,
-                    children: List.generate(8, (index) => const ProductCard()),
-                  ),
+                  width: 900,
+                  child: FutureBuilder(
+                      future: productController.getProducts(),
+                      builder: (context, snapshot) {
+                        if (snapshot.hasData) {
+                          return GridView.count(
+                            physics: const ScrollPhysics(),
+                            crossAxisSpacing: 5,
+                            crossAxisCount: 4,
+                            children: List.generate(
+                                snapshot.data?["results"].length, (i) {
+                              return ProductCard(
+                                  name: snapshot.data["results"]?[i]["name"],
+                                  price: snapshot.data["results"]?[i]["price"],
+                                  image: snapshot.data["results"]?[i]["image"]);
+                            }),
+                          );
+                          // return ListView.builder(
+                          //   itemCount: snapshot.data?["results"].length,
+                          //   itemBuilder: (context, i) {
+                          //     return ProductCard(
+                          //         name: snapshot.data["results"]?[i]["name"],
+                          //         price: snapshot.data["results"]?[i]["price"],
+                          //         image: snapshot.data["results"]?[i]["image"]);
+                          //   },
+                          // );
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text(snapshot.error.toString()));
+                        } else {
+                          return const Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                      }),
                 ),
               ),
             ],

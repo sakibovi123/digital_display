@@ -1,51 +1,58 @@
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key});
+  String name;
+  String price;
+  String image;
+
+  // const ProductCard({super.key, required this.name, required this.price, required this.image});
+
+  ProductCard({required this.name, required this.price, required this.image});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 400,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(3.0),
-        color: Colors.white,
-      ),
-      child: Stack(
-        children: [
-          Image.network(
-            "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8YnVyZ2VyfGVufDB8fDB8fA%3D%3D&w=1000&q=80",
-            fit: BoxFit.cover,
-            // opacity: ,
-          ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(6.0),
-                    bottomRight: Radius.circular(6.0),
-                  ),
+    return Stack(
+      children: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(5),
+          child: Opacity(
+            opacity: 0.7,
+            child: Image.network("https://digital-display.betafore.com/$image",
+                fit: BoxFit.cover, height: 400, width: double.infinity
+                // opacity: ,
                 ),
-                child: Center(child: Text("HELLO WORLD")),
-              ),
-              Container(
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(6.0),
-                    bottomRight: Radius.circular(6.0),
-                  ),
-                ),
-                child: Center(
-                    child: Text("HELLO WORLD",
-                        style: TextStyle(color: Colors.black))),
-              ),
-            ],
           ),
-        ],
-      ),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(6.0),
+                  bottomRight: Radius.circular(6.0),
+                ),
+              ),
+              child: Center(
+                  child: Text(
+                name,
+                style: const TextStyle(fontSize: 14, color: Color(0xFFffffff)),
+              )),
+            ),
+            Container(
+              decoration: const BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(6.0),
+                  bottomRight: Radius.circular(6.0),
+                ),
+              ),
+              child: Center(
+                  child: Text(price, style: TextStyle(color: Colors.black))),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

@@ -19,7 +19,10 @@ class DisplayController with ChangeNotifier {
     var token = localStorage.getItem('access');
 
     try {
-      http.Response response = await http.get(url);
+      http.Response response = await http.get(url, headers: {
+        "Authorization":
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NzYwOTY1LCJpYXQiOjE2Njc2NzQ1NjUsImp0aSI6ImE1ZjAyOTJlYTE1MjRhNDM5YzI2YWYwZGQzNjA3YjZlIiwiaWQiOjV9.yjKKzalzRvSrSiSBUhZtZVg3wBy_o7P2Wvy7sbMOOT0"
+      });
       var data = json.decode(response.body) as List;
       List<DisplayModel> temp = [];
       for (var element in data) {
@@ -34,8 +37,24 @@ class DisplayController with ChangeNotifier {
     }
   }
 
-  List<DisplayModel> get dispays {
+  List<DisplayModel> get displays {
     return [..._displays];
+  }
+
+  Future getallDisplay() async {
+    var token = localStorage.getItem("access");
+    try {
+      var response = await http
+          .get(Uri.parse(url), headers: {"Authorization": "Bearer $token"});
+
+      if (response.statusCode == 200) {
+        return jsonDecode(response.body);
+      } else {
+        throw "Error";
+      }
+    } catch (e) {
+      return Future.error(e);
+    }
   }
 
   Future<bool> addDisplay(String name, String category, String templateName,

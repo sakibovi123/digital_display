@@ -3,10 +3,10 @@ class DisplayModel {
   List<Products>? products;
   List<Catalogs>? catalogs;
   String? name;
-  String? description;
+  Null? description;
   String? category;
   String? templateName;
-  String? bannerText;
+  Null? bannerText;
 
   DisplayModel(
       {this.id,
@@ -60,12 +60,12 @@ class DisplayModel {
 class Products {
   int? id;
   String? name;
-  String? unit;
+  Null? unit;
   String? price;
-  String? salePrice;
+  Null? salePrice;
   String? image;
-  String? category;
-  String? badge;
+  Null? category;
+  Null? badge;
 
   Products(
       {this.id,

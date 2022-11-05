@@ -1,8 +1,10 @@
+import 'package:digitaldisplay/controllers/DisplayController.dart';
 import 'package:digitaldisplay/views/screens/CreateDisplay.dart';
 import 'package:digitaldisplay/views/screens/CreateProduct.dart';
 import 'package:digitaldisplay/views/widgets/NavBar.dart';
 import 'package:digitaldisplay/views/widgets/Package.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:responsive_toolkit/responsive_toolkit.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
@@ -18,8 +20,28 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  bool _init = true;
+
+  bool _loadingDisplay = false;
+
+  @override
+  void didChangeDependencies() async {
+    if (_init) {
+      _loadingDisplay =
+          await Provider.of<DisplayController>(context).getDisplays();
+
+      setState(() {});
+    }
+    _init = false;
+    super.didChangeDependencies();
+  }
+
+  DisplayController displayController = DisplayController();
+
   @override
   Widget build(BuildContext context) {
+    final displays = Provider.of<DisplayController>(context).displays;
+
     final ButtonStyle buttonStyle2 = ElevatedButton.styleFrom(
       backgroundColor: const Color(0xFF111111),
       shape: const StadiumBorder(),
@@ -68,10 +90,38 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
+          // Flexible(
+          //   child: GridView.count(
+          //       crossAxisCount: 3,
+          //       children: List.generate(
+          //           displays.results,
+          //           (i) => DisplayCard(
+          //                 displayName: "displays[i].results!",
+          //               ))),
+          // ),
           Flexible(
-            child: GridView.count(
-                crossAxisCount: 4,
-                children: List.generate(10, (i) => const DisplayCard())),
+            child: FutureBuilder(
+                future: displayController.getallDisplay(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return GridView.count(
+                        physics: const ScrollPhysics(),
+                        crossAxisCount: 4,
+                        crossAxisSpacing: 5,
+                        children: List.generate(
+                            snapshot.data?["results"].length, (i) {
+                          return DisplayCard(
+                            displayName: snapshot.data["results"]?[i]["name"],
+                            displayImage: snapshot.data["results"]?[i]
+                                ["catalogs"][0]["image"],
+                          );
+                        }));
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text(snapshot.error.toString()));
+                  } else {
+                    return const Center(child: CircularProgressIndicator());
+                  }
+                }),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,

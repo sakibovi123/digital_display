@@ -2,19 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:responsive_toolkit/responsive_toolkit.dart';
 
 class DisplayCard extends StatelessWidget {
-  // final String displayName;
+  final String displayName;
+  final String displayImage;
   // final String location;
   // final String displayStyle;
   // final String displayImage;
 
-  // const DisplayCard(
-  //   this.displayName,
-  //   this.location,
-  //   this.displayStyle,
-  //   this.displayImage
-  // );
+  DisplayCard({required this.displayName, required this.displayImage});
 
-  const DisplayCard({Key? key}) : super(key: key);
+  // const DisplayCard({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +27,7 @@ class DisplayCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.all(10.0),
       alignment: Alignment.center,
-      height: 400.0,
+      height: 300.0,
       width: double.infinity,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
@@ -80,18 +76,18 @@ class DisplayCard extends StatelessWidget {
                 height: 55.0,
                 width: 120.0,
                 //color: Colors.black,
-                child: const Padding(
+                child: Padding(
                   padding: EdgeInsets.all(8.0),
                   child: Card(
                     //margin: EdgeInsets.all(10.0),
                     color: Colors.black,
                     elevation: 10.0,
                     child: Padding(
-                      padding: EdgeInsets.all(8.0),
+                      padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        "Dhanmondi",
+                        displayName,
                         textAlign: TextAlign.center,
-                        style: TextStyle(
+                        style: const TextStyle(
                           color: Colors.white,
                           fontSize: 12.0,
                           fontWeight: FontWeight.bold,
@@ -104,10 +100,10 @@ class DisplayCard extends StatelessWidget {
             ],
           ),
           Image.network(
-            "https://d1csarkz8obe9u.cloudfront.net/posterpreviews/digital-marketing-agency-flyer-design-template-d3559a36a07943d6b514636b8fab4f8b_screen.jpg?ts=1637039910",
+            "https://digital-display.betafore.com/$displayImage",
             fit: BoxFit.cover,
             width: double.infinity,
-            height: 200,
+            height: 250,
           ),
           Container(height: 20),
           Row(

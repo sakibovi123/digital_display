@@ -5,19 +5,24 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:dio/dio.dart';
 
-class ProductController with ChangeNotifier {
+class ProductController {
   LocalStorage localStorage = new LocalStorage('userToken');
 
   String url =
       "https://digital-display.betafore.com/api/v1/digital-display/products/";
 
   // getting all products
-  Future<List> getProducts() async {
+  Future getProducts() async {
+    var token = localStorage.getItem("access");
     try {
-      var response = await http.get(Uri.parse(url));
+      // var response = await http
+      //     .get(Uri.parse(url), headers: {"Authorization": "Bearer $token"});
+      var response = await http
+          .get(Uri.parse(url), headers: {"Authorization": "Bearer $token"});
 
       if (response.statusCode == 200) {
-        return jsonDecode(response.body);
+        print(response.body);
+        return json.decode(response.body);
       } else {
         return Future.error("Something went Wrong!");
       }
@@ -43,7 +48,7 @@ class ProductController with ChangeNotifier {
 
       if (response.statusCode == 200) {
         print(response);
-        notifyListeners();
+
         return true;
       } else {
         return false;
@@ -71,7 +76,7 @@ class ProductController with ChangeNotifier {
 
       if (response.statusCode == 200) {
         print(response);
-        notifyListeners();
+
         return true;
       } else {
         return false;
