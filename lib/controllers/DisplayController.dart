@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:developer';
 import 'package:digitaldisplay/models/DisplayModel.dart';
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
@@ -23,16 +24,26 @@ class DisplayController with ChangeNotifier {
         "Authorization":
             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NzYwOTY1LCJpYXQiOjE2Njc2NzQ1NjUsImp0aSI6ImE1ZjAyOTJlYTE1MjRhNDM5YzI2YWYwZGQzNjA3YjZlIiwiaWQiOjV9.yjKKzalzRvSrSiSBUhZtZVg3wBy_o7P2Wvy7sbMOOT0"
       });
-      var data = json.decode(response.body) as List;
+      // var data = json.decode(response.body) as List;
+
+      // List<DisplayModel> temp = [];
+      // for (var element in data) {
+      //   DisplayModel displayModel = DisplayModel.fromJson(data);
+      //   temp.add(displayModel);
+      // }
+      var data = json.decode(response.body);
+
       List<DisplayModel> temp = [];
-      for (var element in data) {
-        DisplayModel displayModel = DisplayModel.fromJson(element);
-        temp.add(displayModel);
-      }
+
+      DisplayModel displayModel = DisplayModel.fromJson(data);
+      temp.add(displayModel);
+      print("length = ${temp[0].results?.length}");
+
       _displays = temp;
       notifyListeners();
       return true;
     } catch (exception) {
+      log(exception.toString());
       return false;
     }
   }
@@ -41,20 +52,11 @@ class DisplayController with ChangeNotifier {
     return [..._displays];
   }
 
-  Future getallDisplay() async {
-    var token = localStorage.getItem("access");
-    try {
-      var response = await http
-          .get(Uri.parse(url), headers: {"Authorization": "Bearer $token"});
-
-      if (response.statusCode == 200) {
-        return jsonDecode(response.body);
-      } else {
-        throw "Error";
-      }
-    } catch (e) {
-      return Future.error(e);
-    }
+  // DisplayModel singleDisplay(int id) {
+  //   return _displays.firstWhere((element) => element.results![0].id == id);
+  // }
+  Results singleDisplay(int id) {
+    return _displays[0].results!.firstWhere((element) => element.id == id);
   }
 
   Future<bool> addDisplay(String name, String category, String templateName,
@@ -89,7 +91,7 @@ class DisplayController with ChangeNotifier {
   }
 
   Future<bool> editDisplay(String name, String category, String templateName,
-      String catalogsImage, String catalogsVideo, int productId) async {
+      File catalogsImage, File catalogsVideo, int productId) async {
     var token = localStorage.getItem('access');
     try {
       Dio dio = new Dio();

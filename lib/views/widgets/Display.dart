@@ -1,14 +1,20 @@
+import 'package:digitaldisplay/views/screens/EditDisplay.dart';
+import 'package:digitaldisplay/views/screens/ShowDisplay.dart';
 import 'package:flutter/material.dart';
 import 'package:responsive_toolkit/responsive_toolkit.dart';
 
 class DisplayCard extends StatelessWidget {
+  final int id;
   final String displayName;
   final String displayImage;
   // final String location;
   // final String displayStyle;
   // final String displayImage;
 
-  DisplayCard({required this.displayName, required this.displayImage});
+  DisplayCard(
+      {required this.displayName,
+      required this.displayImage,
+      required this.id});
 
   // const DisplayCard({Key? key}) : super(key: key);
 
@@ -111,12 +117,18 @@ class DisplayCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed(EditDisplay.routeName, arguments: id);
+                },
                 child: Text("Edit Display"),
                 style: buttonStyle1,
               ),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context)
+                      .pushNamed(ShowDisplay.routeName, arguments: id);
+                },
                 child: Text("View Display"),
                 style: buttonStyle2,
               ),

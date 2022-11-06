@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:digitaldisplay/controllers/DisplayController.dart';
 import 'package:digitaldisplay/views/screens/CreateDisplay.dart';
 import 'package:digitaldisplay/views/screens/CreateProduct.dart';
+import 'package:digitaldisplay/views/screens/ShowDisplay.dart';
 import 'package:digitaldisplay/views/widgets/NavBar.dart';
 import 'package:digitaldisplay/views/widgets/Package.dart';
 import 'package:flutter/material.dart';
@@ -8,6 +11,7 @@ import 'package:provider/provider.dart';
 import 'package:responsive_toolkit/responsive_toolkit.dart';
 import 'package:responsive_grid/responsive_grid.dart';
 
+import '../../models/DisplayModel.dart';
 import '../widgets/Display.dart';
 
 class Home extends StatefulWidget {
@@ -20,28 +24,14 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  bool _init = true;
-
-  bool _loadingDisplay = false;
-
   @override
-  void didChangeDependencies() async {
-    if (_init) {
-      _loadingDisplay =
-          await Provider.of<DisplayController>(context).getDisplays();
-
-      setState(() {});
-    }
-    _init = false;
-    super.didChangeDependencies();
+  void initState() {
+    Provider.of<DisplayController>(context, listen: false).getDisplays();
+    super.initState();
   }
-
-  DisplayController displayController = DisplayController();
 
   @override
   Widget build(BuildContext context) {
-    final displays = Provider.of<DisplayController>(context).displays;
-
     final ButtonStyle buttonStyle2 = ElevatedButton.styleFrom(
       backgroundColor: const Color(0xFF111111),
       shape: const StadiumBorder(),
@@ -90,38 +80,26 @@ class _HomeState extends State<Home> {
               ),
             ],
           ),
-          // Flexible(
-          //   child: GridView.count(
-          //       crossAxisCount: 3,
-          //       children: List.generate(
-          //           displays.results,
-          //           (i) => DisplayCard(
-          //                 displayName: "displays[i].results!",
-          //               ))),
-          // ),
           Flexible(
-            child: FutureBuilder(
-                future: displayController.getallDisplay(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    return GridView.count(
-                        physics: const ScrollPhysics(),
-                        crossAxisCount: 4,
-                        crossAxisSpacing: 5,
-                        children: List.generate(
-                            snapshot.data?["results"].length, (i) {
-                          return DisplayCard(
-                            displayName: snapshot.data["results"]?[i]["name"],
-                            displayImage: snapshot.data["results"]?[i]
-                                ["catalogs"][0]["image"],
-                          );
-                        }));
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text(snapshot.error.toString()));
-                  } else {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                }),
+            child: Consumer<DisplayController>(
+              builder: (context, value, child) {
+                //log('${value.displays[0].results?.length.toString()}');
+                return GridView.count(
+                  crossAxisCount: 4,
+                  children: List.generate(
+                      value.displays.isNotEmpty
+                          ? value.displays[0].results!.length
+                          : 0, (i) {
+                    return DisplayCard(
+                      displayName: value.displays[0].results![i].name!,
+                      displayImage:
+                          value.displays[0].results![i].catalogs![0].image!,
+                      id: value.displays[0].results![i].id!,
+                    );
+                  }),
+                );
+              },
+            ),
           ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -139,8 +117,7 @@ class _HomeState extends State<Home> {
                 padding: const EdgeInsets.all(8.0),
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.of(context)
-                        .pushReplacementNamed(CreateProduct.routeName);
+                    Navigator.of(context).pushNamed(CreateProduct.routeName);
                   },
                   child: Text("Create Product"),
                   style: buttonStyle2,

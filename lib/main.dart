@@ -3,8 +3,10 @@ import 'package:digitaldisplay/controllers/ProductController.dart';
 import 'package:digitaldisplay/controllers/UserController.dart';
 import 'package:digitaldisplay/views/screens/CreateDisplay.dart';
 import 'package:digitaldisplay/views/screens/CreateProduct.dart';
+import 'package:digitaldisplay/views/screens/EditDisplay.dart';
 import 'package:digitaldisplay/views/screens/Home.dart';
 import 'package:digitaldisplay/views/screens/Login.dart';
+import 'package:digitaldisplay/views/screens/ShowDisplay.dart';
 import 'package:digitaldisplay/views/screens/Splash.dart';
 import 'package:digitaldisplay/views/widgets/Package.dart';
 import 'package:flutter/material.dart';
@@ -38,6 +40,8 @@ class MyApp extends StatelessWidget {
           LoginScreen.routeName: (context) => const LoginScreen(),
           CreateDisplay.routeName: (context) => const CreateDisplay(),
           CreateProduct.routeName: (context) => const CreateProduct(),
+          ShowDisplay.routeName: (context) => const ShowDisplay(),
+          EditDisplay.routeName: (context) => const EditDisplay(),
         },
       ),
     );

@@ -21,7 +21,6 @@ class ProductController {
           .get(Uri.parse(url), headers: {"Authorization": "Bearer $token"});
 
       if (response.statusCode == 200) {
-        print(response.body);
         return json.decode(response.body);
       } else {
         return Future.error("Something went Wrong!");
