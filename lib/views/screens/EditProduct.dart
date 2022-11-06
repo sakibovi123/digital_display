@@ -6,16 +6,16 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 
-class CreateProduct extends StatefulWidget {
-  const CreateProduct({super.key});
+class EditProduct extends StatefulWidget {
+  const EditProduct({super.key});
 
-  static const routeName = "/create-product";
+  static const routeName = "/edit-product";
 
   @override
-  State<CreateProduct> createState() => _CreateProductState();
+  State<EditProduct> createState() => _EditProductState();
 }
 
-class _CreateProductState extends State<CreateProduct> {
+class _EditProductState extends State<EditProduct> {
   final ImagePicker picker = ImagePicker();
 
   @override
@@ -39,7 +39,7 @@ class _CreateProductState extends State<CreateProduct> {
 
     _form.currentState!.save();
     bool create = await Provider.of<ProductController>(context, listen: false)
-        .createProduct(_name, _price, image!);
+        .editProduct(_name, _price, image!);
 
     if (create) {
       showDialog(
@@ -77,6 +77,12 @@ class _CreateProductState extends State<CreateProduct> {
 
   @override
   Widget build(BuildContext context) {
+    final productId = ModalRoute.of(context)!.settings.arguments;
+    final product = Provider.of<ProductController>(context)
+        .productDetails(productId as int);
+    final productName = product.name;
+    final price = product.price;
+    final productImage = product.image;
     final ButtonStyle buttonStyle1 = ElevatedButton.styleFrom(
       backgroundColor: const Color(0xFFc3232a),
       shape: const StadiumBorder(),
@@ -118,10 +124,10 @@ class _CreateProductState extends State<CreateProduct> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      image == null
-                          ? const Text("No Image Added")
-                          : Flexible(
-                              child: Image.file(image!, fit: BoxFit.cover)),
+                      // image == null
+                      //     ? const Text("No Image Added")
+                      //     : Flexible(
+                      //         child: Image.file(image!, fit: BoxFit.cover)),
 
                       Flexible(
                         child: Padding(
@@ -168,6 +174,7 @@ class _CreateProductState extends State<CreateProduct> {
                                 onSaved: (value) {
                                   _name = value as String;
                                 },
+                                initialValue: productName,
                                 autofocus: true,
                                 style: const TextStyle(
                                     fontSize: 15.0, color: Colors.black),
@@ -207,6 +214,7 @@ class _CreateProductState extends State<CreateProduct> {
                                 onSaved: (value) {
                                   _price = value as String;
                                 },
+                                initialValue: price,
                                 autofocus: true,
                                 style: const TextStyle(
                                     fontSize: 15.0, color: Colors.black),

@@ -1,26 +1,41 @@
+import 'package:digitaldisplay/views/screens/EditProduct.dart';
 import 'package:flutter/material.dart';
 
 class ProductCard extends StatelessWidget {
+  int id;
   String name;
   String price;
   String image;
 
   // const ProductCard({super.key, required this.name, required this.price, required this.image});
 
-  ProductCard({required this.name, required this.price, required this.image});
+  ProductCard(
+      {required this.id,
+      required this.name,
+      required this.price,
+      required this.image});
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        ClipRRect(
-          borderRadius: BorderRadius.circular(5),
-          child: Opacity(
-            opacity: 0.7,
-            child: Image.network("https://digital-display.betafore.com/$image",
-                fit: BoxFit.cover, height: 400, width: double.infinity
-                // opacity: ,
-                ),
+        InkWell(
+          onTap: () {
+            Navigator.of(context)
+                .pushNamed(EditProduct.routeName, arguments: id);
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(5),
+            child: Opacity(
+              opacity: 0.5,
+              child: Image.network(
+                  "https://digital-display.betafore.com/$image",
+                  fit: BoxFit.cover,
+                  height: 600,
+                  width: double.infinity
+                  // opacity: ,
+                  ),
+            ),
           ),
         ),
         Row(
@@ -37,7 +52,10 @@ class ProductCard extends StatelessWidget {
               child: Center(
                   child: Text(
                 name,
-                style: const TextStyle(fontSize: 14, color: Color(0xFFffffff)),
+                style: const TextStyle(
+                    fontSize: 17,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFFffffff)),
               )),
             ),
             Container(
@@ -48,7 +66,11 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
               child: Center(
-                  child: Text(price, style: TextStyle(color: Colors.black))),
+                  child: Text("\$${price}",
+                      style: const TextStyle(
+                          color: Colors.black,
+                          fontSize: 18.0,
+                          fontWeight: FontWeight.bold))),
             ),
           ],
         ),

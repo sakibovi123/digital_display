@@ -4,6 +4,7 @@ import 'package:digitaldisplay/controllers/UserController.dart';
 import 'package:digitaldisplay/views/screens/CreateDisplay.dart';
 import 'package:digitaldisplay/views/screens/CreateProduct.dart';
 import 'package:digitaldisplay/views/screens/EditDisplay.dart';
+import 'package:digitaldisplay/views/screens/EditProduct.dart';
 import 'package:digitaldisplay/views/screens/Home.dart';
 import 'package:digitaldisplay/views/screens/Login.dart';
 import 'package:digitaldisplay/views/screens/ShowDisplay.dart';
@@ -26,7 +27,7 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (ctx) => UserController()),
         ChangeNotifierProvider(create: (ctx) => DisplayController()),
-        // ChangeNotifierProvider(create: (ctx) => ProductController()),
+        ChangeNotifierProvider(create: (ctx) => ProductController()),
       ],
       child: MaterialApp(
         title: 'Digital Display',
@@ -42,6 +43,7 @@ class MyApp extends StatelessWidget {
           CreateProduct.routeName: (context) => const CreateProduct(),
           ShowDisplay.routeName: (context) => const ShowDisplay(),
           EditDisplay.routeName: (context) => const EditDisplay(),
+          EditProduct.routeName: (context) => const EditProduct(),
         },
       ),
     );

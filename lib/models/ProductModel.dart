@@ -1,14 +1,40 @@
 class ProductModel {
+  String? status;
+  List<Results>? results;
+
+  ProductModel({this.status, this.results});
+
+  ProductModel.fromJson(Map<String, dynamic> json) {
+    status = json['status'];
+    if (json['results'] != null) {
+      results = <Results>[];
+      json['results'].forEach((v) {
+        results!.add(new Results.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['status'] = this.status;
+    if (this.results != null) {
+      data['results'] = this.results!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Results {
   int? id;
   String? name;
-  String? unit;
+  Null? unit;
   String? price;
-  String? salePrice;
+  Null? salePrice;
   String? image;
-  String? category;
-  String? badge;
+  Null? category;
+  Null? badge;
 
-  ProductModel(
+  Results(
       {this.id,
       this.name,
       this.unit,
@@ -18,7 +44,7 @@ class ProductModel {
       this.category,
       this.badge});
 
-  ProductModel.fromJson(Map<String, dynamic> json) {
+  Results.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     name = json['name'];
     unit = json['unit'];
