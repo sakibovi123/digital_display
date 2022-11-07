@@ -8,9 +8,8 @@ import 'package:digitaldisplay/views/screens/EditProduct.dart';
 import 'package:digitaldisplay/views/screens/Home.dart';
 import 'package:digitaldisplay/views/screens/Login.dart';
 import 'package:digitaldisplay/views/screens/ShowDisplay.dart';
-import 'package:digitaldisplay/views/screens/Splash.dart';
-import 'package:digitaldisplay/views/widgets/Package.dart';
 import 'package:flutter/material.dart';
+import 'package:localstorage/localstorage.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -23,6 +22,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    LocalStorage localStorage = new LocalStorage("userToken");
+    var token = localStorage.getItem("access");
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (ctx) => UserController()),
@@ -34,8 +35,9 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
           primarySwatch: Colors.blue,
+          fontFamily: 'OpenSans',
         ),
-        home: const LoginScreen(),
+        home: token != null ? const Home() : const LoginScreen(),
         routes: {
           Home.routeName: (context) => const Home(),
           LoginScreen.routeName: (context) => const LoginScreen(),

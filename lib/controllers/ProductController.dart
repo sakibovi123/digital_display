@@ -14,25 +14,6 @@ class ProductController with ChangeNotifier {
   String url =
       "https://digital-display.betafore.com/api/v1/digital-display/products/";
 
-  // getting all products
-  // Future getProducts() async {
-  //   var token = localStorage.getItem("access");
-  //   try {
-  //     // var response = await http
-  //     //     .get(Uri.parse(url), headers: {"Authorization": "Bearer $token"});
-  //     var response = await http
-  //         .get(Uri.parse(url), headers: {"Authorization": "Bearer $token"});
-
-  //     if (response.statusCode == 200) {
-  //       return json.decode(response.body);
-  //     } else {
-  //       return Future.error("Something went Wrong!");
-  //     }
-  //   } catch (e) {
-  //     return Future.error(e);
-  //   }
-  // }
-
   Future<bool> getProducts() async {
     var token = localStorage.getItem("access");
     try {
@@ -40,14 +21,18 @@ class ProductController with ChangeNotifier {
         "Authorization":
             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3ODQ1MjMzLCJpYXQiOjE2Njc3NTg4MzMsImp0aSI6ImZiMjc0NGQ1OTk4YTQ4Y2Q5NjVlYWFkZDc0Y2MyM2I3IiwiaWQiOjV9.joeDqC_ocLymZJEkqWxZXo1STyRatJmg6ui931x-4p0"
       });
-      var data = json.decode(response.body);
-      List<ProductModel> temp = [];
-      ProductModel productModel = ProductModel.fromJson(data);
-      temp.add(productModel);
-      print("Product Length =>> ${temp[0].results?.length}");
-      _products = temp;
-      notifyListeners();
-      return true;
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        List<ProductModel> temp = [];
+        ProductModel productModel = ProductModel.fromJson(data);
+        temp.add(productModel);
+        print("Product Length =>> ${temp[0].results?.length}");
+        _products = temp;
+        notifyListeners();
+        return true;
+      } else {
+        return false;
+      }
     } catch (exception) {
       log(exception.toString());
       return false;

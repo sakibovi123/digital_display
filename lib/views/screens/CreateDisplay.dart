@@ -1,5 +1,6 @@
 // ignore_for_file: sized_box_for_whitespace
 import 'package:digitaldisplay/controllers/DisplayController.dart';
+import 'package:digitaldisplay/controllers/ProductController.dart';
 import 'package:digitaldisplay/views/widgets/Display.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -27,7 +28,7 @@ class _CreateDisplayState extends State<CreateDisplay> {
 
   final _form = GlobalKey<FormState>();
 
-  DisplayController displayController = DisplayController();
+  // DisplayController displayController = DisplayController();
 
   void _addDisplay() async {
     var isValid = _form.currentState!.validate();
@@ -75,6 +76,12 @@ class _CreateDisplayState extends State<CreateDisplay> {
   }
 
   @override
+  void initState() {
+    Provider.of<DisplayController>(context, listen: false).displays;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final ButtonStyle buttonStyle1 = ElevatedButton.styleFrom(
       backgroundColor: const Color(0xFFc3232a),
@@ -109,17 +116,27 @@ class _CreateDisplayState extends State<CreateDisplay> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Container(
-                //     height: 350,
-                //     width: 900,
-                //     child: GridView.count(
-                //       crossAxisCount: 1,
-                //       scrollDirection: Axis.horizontal,
-                //       children: List.generate(6, (i) => const DisplayCard()),
-                //     ),
-                //   ),
+                // Consumer<DisplayController>(
+                //   builder: (context, value, child) {
+                //     return Container(
+                //       width: double.infinity,
+                //       height: 900,
+                //       child: GridView.count(
+                //         crossAxisCount: 4,
+                //         scrollDirection: Axis.horizontal,
+                //         children: List.generate(
+                //             value.displays.isNotEmpty
+                //                 ? value.displays[0].results!.length
+                //                 : 0, (i) {
+                //           return DisplayCard(
+                //               displayName: value.displays[0].results![i].name!,
+                //               displayImage: value
+                //                   .displays[0].results![i].catalogs![0].image!,
+                //               id: value.displays[0].results![i].id!);
+                //         }),
+                //       ),
+                //     );
+                //   },
                 // ),
               ],
             ),

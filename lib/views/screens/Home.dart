@@ -84,20 +84,26 @@ class _HomeState extends State<Home> {
             child: Consumer<DisplayController>(
               builder: (context, value, child) {
                 //log('${value.displays[0].results?.length.toString()}');
-                return GridView.count(
-                  crossAxisCount: 4,
-                  children: List.generate(
-                      value.displays.isNotEmpty
-                          ? value.displays[0].results!.length
-                          : 0, (i) {
-                    return DisplayCard(
-                      displayName: value.displays[0].results![i].name!,
-                      displayImage:
-                          value.displays[0].results![i].catalogs![0].image!,
-                      id: value.displays[0].results![i].id!,
-                    );
-                  }),
-                );
+                if (value.displays[0].results!.isNotEmpty) {
+                  return GridView.count(
+                    crossAxisCount: 4,
+                    children: List.generate(
+                        value.displays.isNotEmpty
+                            ? value.displays[0].results!.length
+                            : 0, (i) {
+                      return DisplayCard(
+                        displayName: value.displays[0].results![i].name!,
+                        displayImage:
+                            value.displays[0].results![i].catalogs![0].image!,
+                        id: value.displays[0].results![i].id!,
+                      );
+                    }),
+                  );
+                } else {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
               },
             ),
           ),

@@ -81,7 +81,8 @@ class _EditDisplayState extends State<EditDisplay> {
     final displayName = display.name!;
     final categoryName = display.category!;
     final templateName = display.templateName!;
-    final productName = display.products![0].id!;
+    final _productId = display.products![0].id!;
+    final productImage = display.products![0].image!;
 
     final ButtonStyle buttonStyle1 = ElevatedButton.styleFrom(
       backgroundColor: const Color(0xFFc3232a),
@@ -499,10 +500,10 @@ class _EditDisplayState extends State<EditDisplay> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: [
                         Image.network(
-                          "https://binaries.templates.cdn.office.net/support/templates/en-us/lt16412134_quantized.png",
-                          height: 280,
-                          width: 500,
-                          fit: BoxFit.cover,
+                          "https://digital-display.betafore.com/$productImage",
+                          height: 500,
+                          // width: 500,
+                          fit: BoxFit.fill,
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,

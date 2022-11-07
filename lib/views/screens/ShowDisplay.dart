@@ -15,6 +15,7 @@ class ShowDisplay extends StatelessWidget {
         Provider.of<DisplayController>(context).singleDisplay(displayId as int);
     final displayImg = display.catalogs![0].image!;
     final productName = display.products![0].name!;
+    final productImage = display.products![0].image;
     return Scaffold(
       body: Container(
         width: double.infinity,
@@ -22,7 +23,7 @@ class ShowDisplay extends StatelessWidget {
         child: Stack(
           children: [
             Image.network(
-              "https://img.freepik.com/free-photo/top-view-background-beautiful-white-grey-brown-cream-blue-background_140725-72219.jpg?w=2000",
+              "https://digital-display.betafore.com/$displayImg",
               height: double.infinity,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -33,7 +34,7 @@ class ShowDisplay extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   Image.network(
-                      "https://digital-display.betafore.com/$displayImg",
+                      "https://digital-display.betafore.com/$productImage",
                       height: 500,
                       width: 600),
                   Text(productName,
