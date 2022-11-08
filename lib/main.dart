@@ -6,7 +6,9 @@ import 'package:digitaldisplay/views/screens/CreateProduct.dart';
 import 'package:digitaldisplay/views/screens/EditDisplay.dart';
 import 'package:digitaldisplay/views/screens/EditProduct.dart';
 import 'package:digitaldisplay/views/screens/Home.dart';
+import 'package:digitaldisplay/views/screens/Layout/DisplayResponsiveLayout.dart';
 import 'package:digitaldisplay/views/screens/Login.dart';
+import 'package:digitaldisplay/views/screens/Responsive/CreateDisplayMobile.dart';
 import 'package:digitaldisplay/views/screens/ShowDisplay.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
@@ -34,10 +36,11 @@ class MyApp extends StatelessWidget {
         title: 'Digital Display',
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.deepPurple,
           fontFamily: 'OpenSans',
         ),
-        home: token != null ? const Home() : const LoginScreen(),
+        home: const Home(),
+        // home: token != null ? const Home() : const LoginScreen(),
         routes: {
           Home.routeName: (context) => const Home(),
           LoginScreen.routeName: (context) => const LoginScreen(),
@@ -46,6 +49,7 @@ class MyApp extends StatelessWidget {
           ShowDisplay.routeName: (context) => const ShowDisplay(),
           EditDisplay.routeName: (context) => const EditDisplay(),
           EditProduct.routeName: (context) => const EditProduct(),
+          // DisplayResponsiveLayout.routeName: (context) => const DisplayResponsiveLayout(),
         },
       ),
     );

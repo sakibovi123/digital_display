@@ -21,9 +21,9 @@ class DisplayController with ChangeNotifier {
 
     try {
       http.Response response = await http.get(url, headers: {
-        // "Authorization":
-        //     "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NzYwOTY1LCJpYXQiOjE2Njc2NzQ1NjUsImp0aSI6ImE1ZjAyOTJlYTE1MjRhNDM5YzI2YWYwZGQzNjA3YjZlIiwiaWQiOjV9.yjKKzalzRvSrSiSBUhZtZVg3wBy_o7P2Wvy7sbMOOT0"
-        "Authorization": "Bearer $token"
+         "Authorization":
+             "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3OTY5NzgxLCJpYXQiOjE2Njc4ODMzODEsImp0aSI6IjNjMzM5MzQ5MTg5ZDQyZDA5Y2RiYThmZTZjYzRiNzdlIiwiaWQiOjV9.UWi2Ou_V0QcTsY_Y1HSDgIz439jWrMPmHXBdymtKydo"
+        // "Authorization": "Bearer $token"
       });
       // var data = json.decode(response.body) as List;
 

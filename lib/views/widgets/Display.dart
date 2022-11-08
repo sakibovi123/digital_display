@@ -29,12 +29,14 @@ class DisplayCard extends StatelessWidget {
       backgroundColor: Color(0xFFc3232a),
       shape: const StadiumBorder(),
     );
-
+    double maxHeight = MediaQuery.of(context).size.height;
+    double maxWidth = MediaQuery.of(context).size.width;
     return Container(
-      margin: const EdgeInsets.all(10.0),
+      // margin: const EdgeInsets.all(10.0),
       alignment: Alignment.center,
-      height: 300.0,
-      width: double.infinity,
+      height: maxHeight * 0.80,
+      width: maxWidth,
+      // width: double.infinity,
       decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10.0),
           boxShadow: const [
@@ -109,7 +111,7 @@ class DisplayCard extends StatelessWidget {
             "https://digital-display.betafore.com/$displayImage",
             fit: BoxFit.cover,
             width: double.infinity,
-            height: 250,
+            height: maxHeight * 0.25,
           ),
           Container(height: 20),
           Row(
