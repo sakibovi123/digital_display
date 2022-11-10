@@ -1,6 +1,6 @@
 import 'package:digitaldisplay/controllers/DisplayController.dart';
-import 'package:digitaldisplay/views/screens/Responsive/MobileBody.dart';
-import 'package:digitaldisplay/views/screens/Responsive/TvBody.dart';
+import 'package:digitaldisplay/views/screens/Mobile/MobileBody.dart';
+import 'package:digitaldisplay/views/screens/Mobile/TvBody.dart';
 import 'package:digitaldisplay/views/widgets/NavBar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

@@ -19,7 +19,7 @@ class ProductController with ChangeNotifier {
     try {
       var response = await http.get(Uri.parse(url), headers: {
         "Authorization":
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3ODQ1MjMzLCJpYXQiOjE2Njc3NTg4MzMsImp0aSI6ImZiMjc0NGQ1OTk4YTQ4Y2Q5NjVlYWFkZDc0Y2MyM2I3IiwiaWQiOjV9.joeDqC_ocLymZJEkqWxZXo1STyRatJmg6ui931x-4p0"
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MTgyMDEwLCJpYXQiOjE2NjgwOTU2MTAsImp0aSI6IjI2NTY1NWE1MzJiMTQ1Y2Y4M2U4N2EzYTE1NjgwOTM5IiwiaWQiOjV9.XNFV82xmMWrDFetjzfGXFE7yfc4HPv45R2vzkUswoGM"
       });
       if (response.statusCode == 200) {
         var data = json.decode(response.body);

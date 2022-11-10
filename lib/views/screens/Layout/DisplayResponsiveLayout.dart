@@ -1,5 +1,5 @@
 import 'package:digitaldisplay/views/dimensions.dart';
-import 'package:digitaldisplay/views/screens/Responsive/CreateDisplayMobile.dart';
+import 'package:digitaldisplay/views/screens/Mobile/CreateDisplayMobile.dart';
 import 'package:digitaldisplay/views/screens/Tv/CreateDisplayTv.dart';
 import 'package:flutter/material.dart';
 

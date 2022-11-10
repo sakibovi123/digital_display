@@ -1,6 +1,6 @@
 import 'package:digitaldisplay/controllers/DisplayController.dart';
 import 'package:digitaldisplay/views/screens/CreateDisplay.dart';
-import 'package:digitaldisplay/views/screens/Responsive/CreateDisplayMobile.dart';
+import 'package:digitaldisplay/views/screens/Mobile/CreateDisplayMobile.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

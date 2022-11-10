@@ -34,7 +34,7 @@ class DisplayCard extends StatelessWidget {
     return Container(
       // margin: const EdgeInsets.all(10.0),
       alignment: Alignment.center,
-      height: maxHeight * 0.80,
+      height: maxHeight * 0.60,
       width: maxWidth,
       // width: double.infinity,
       decoration: BoxDecoration(
