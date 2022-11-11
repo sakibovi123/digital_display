@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace
 import 'package:digitaldisplay/controllers/DisplayController.dart';
 import 'package:digitaldisplay/controllers/ProductController.dart';
+import 'package:digitaldisplay/models/DisplayModel.dart';
 import 'package:digitaldisplay/views/widgets/Display.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -22,7 +23,7 @@ class _CreateDisplayTvState extends State<CreateDisplayTv> {
   String _templateName = "";
   File? catalogImage;
   File? _catalogVideo;
-  late int productId;
+  List<int> productIds = [];
 
   final _form = GlobalKey<FormState>();
 
@@ -36,7 +37,7 @@ class _CreateDisplayTvState extends State<CreateDisplayTv> {
     _form.currentState!.save();
     bool create = await Provider.of<DisplayController>(context, listen: false)
         .addDisplay(_name, _category, _templateName, catalogImage!,
-            _catalogVideo!, productId);
+            _catalogVideo!, productIds);
     if (create) {
       print(create);
       showDialog(

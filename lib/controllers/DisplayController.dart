@@ -22,16 +22,9 @@ class DisplayController with ChangeNotifier {
     try {
       http.Response response = await http.get(url, headers: {
         "Authorization":
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MTgyMDEwLCJpYXQiOjE2NjgwOTU2MTAsImp0aSI6IjI2NTY1NWE1MzJiMTQ1Y2Y4M2U4N2EzYTE1NjgwOTM5IiwiaWQiOjV9.XNFV82xmMWrDFetjzfGXFE7yfc4HPv45R2vzkUswoGM"
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MjczMjY5LCJpYXQiOjE2NjgxODY4NjksImp0aSI6IjE1MWUxNTZlMzJmYTQyZGNhNDZmNzJiMmJiMjBiYzVhIiwiaWQiOjV9.Wu2EEGSYOw8Kp4yAuScPYWnre1FcAMCJhUp3S7u8-nQ"
         // "Authorization": "Bearer $token"
       });
-      // var data = json.decode(response.body) as List;
-
-      // List<DisplayModel> temp = [];
-      // for (var element in data) {
-      //   DisplayModel displayModel = DisplayModel.fromJson(data);
-      //   temp.add(displayModel);
-      // }
       var data = json.decode(response.body);
 
       List<DisplayModel> temp = [];
@@ -61,7 +54,7 @@ class DisplayController with ChangeNotifier {
   }
 
   Future<bool> addDisplay(String name, String category, String templateName,
-      File catalogsImage, File catalogsVideo, int productId) async {
+      File catalogsImage, File catalogsVideo, List<int> productIds) async {
     try {
       // String fileName = catalogsImage.path.split('/').last;
       var token = localStorage.getItem('access');
@@ -72,7 +65,7 @@ class DisplayController with ChangeNotifier {
         "template_name": templateName,
         "catalogs[0]image": await MultipartFile.fromFile(catalogsImage.path),
         "catalogs[0]video": await MultipartFile.fromFile(catalogsVideo.path),
-        "products[0]": productId
+        "products": productIds
       });
 
       var response = await dio.post(url,

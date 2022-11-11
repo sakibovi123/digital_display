@@ -10,16 +10,16 @@ import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'dart:io';
 
-class CreateDisplayMobile extends StatefulWidget {
-  static const routeName = "/create-display";
+class EditDisplayMobile extends StatefulWidget {
+  static const routeName = "/edit-display";
 
-  const CreateDisplayMobile({super.key});
+  const EditDisplayMobile({super.key});
 
   @override
-  State<CreateDisplayMobile> createState() => _CreateDisplayMobileState();
+  State<EditDisplayMobile> createState() => _EditDisplayMobileState();
 }
 
-class _CreateDisplayMobileState extends State<CreateDisplayMobile> {
+class _EditDisplayMobileState extends State<EditDisplayMobile> {
   final ImagePicker picker = ImagePicker();
 
   String _name = "";
