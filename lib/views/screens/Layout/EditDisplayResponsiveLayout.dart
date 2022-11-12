@@ -1,11 +1,10 @@
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/src/widgets/container.dart';
-import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter/material.dart';
 
-class ProductResponsiveLayout extends StatelessWidget {
+class EditDisplayResponsiveLayout extends StatelessWidget {
   final Widget mobileBody;
   final Widget tvBody;
-  const ProductResponsiveLayout(
+
+  const EditDisplayResponsiveLayout(
       {required this.mobileBody, required this.tvBody});
 
   @override

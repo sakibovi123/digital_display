@@ -9,6 +9,7 @@ import 'package:digitaldisplay/views/screens/Home.dart';
 import 'package:digitaldisplay/views/screens/Layout/DisplayResponsiveLayout.dart';
 import 'package:digitaldisplay/views/screens/Login.dart';
 import 'package:digitaldisplay/views/screens/Mobile/CreateDisplayMobile.dart';
+import 'package:digitaldisplay/views/screens/Mobile/MobileBody.dart';
 import 'package:digitaldisplay/views/screens/ShowDisplay.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         // home: token != null ? const Home() : const LoginScreen(),
         routes: {
           Home.routeName: (context) => const Home(),
+          MobileBody.routeName: (context) => const MobileBody(),
           LoginScreen.routeName: (context) => const LoginScreen(),
           CreateDisplay.routeName: (context) => const CreateDisplay(),
           CreateProduct.routeName: (context) => const CreateProduct(),

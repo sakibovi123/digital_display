@@ -22,7 +22,7 @@ class DisplayController with ChangeNotifier {
     try {
       http.Response response = await http.get(url, headers: {
         "Authorization":
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MjczMjY5LCJpYXQiOjE2NjgxODY4NjksImp0aSI6IjE1MWUxNTZlMzJmYTQyZGNhNDZmNzJiMmJiMjBiYzVhIiwiaWQiOjV9.Wu2EEGSYOw8Kp4yAuScPYWnre1FcAMCJhUp3S7u8-nQ"
+            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MzAzMzM5LCJpYXQiOjE2NjgyMTY5MzksImp0aSI6IjMzMGI5M2FmNDdmYTQ0NTc4NWZhMDM0N2MxMzg5ZTMyIiwiaWQiOjV9.f9CSTG9O6lpi9KhuJJY1Fv9S5PBQ34yRqop6WEqx1oE"
         // "Authorization": "Bearer $token"
       });
       var data = json.decode(response.body);
@@ -35,6 +35,7 @@ class DisplayController with ChangeNotifier {
 
       _displays = temp;
       notifyListeners();
+      print(response);
       return true;
     } catch (exception) {
       log(exception.toString());
@@ -70,10 +71,16 @@ class DisplayController with ChangeNotifier {
 
       var response = await dio.post(url,
           data: formData,
-          options: Options(headers: {"Authorization": "Bearer $token"}));
+          // options: Options(headers: {"Authorization": "Bearer $token"}));
+          options: Options(headers: {
+            "Authorization":
+                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MzAzMzM5LCJpYXQiOjE2NjgyMTY5MzksImp0aSI6IjMzMGI5M2FmNDdmYTQ0NTc4NWZhMDM0N2MxMzg5ZTMyIiwiaWQiOjV9.f9CSTG9O6lpi9KhuJJY1Fv9S5PBQ34yRqop6WEqx1oE"
+          }));
 
       if (response.statusCode == 200) {
         notifyListeners();
+        print(formData);
+        print(response);
         return true;
       } else {
         return false;
@@ -85,7 +92,7 @@ class DisplayController with ChangeNotifier {
   }
 
   Future<bool> editDisplay(String name, String category, String templateName,
-      File catalogsImage, File catalogsVideo, int productId) async {
+      File catalogsImage, File catalogsVideo, List<int> productId) async {
     var token = localStorage.getItem('access');
     try {
       Dio dio = new Dio();
@@ -95,7 +102,7 @@ class DisplayController with ChangeNotifier {
         "template_name": templateName,
         "catalogs[0]image": catalogsImage,
         "catalogs[0]video": catalogsVideo,
-        "products[0]": productId
+        "products": productId
       });
       // dio.options.headers["Authorization"] =
       //     "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY3NTQ0MTU5LCJpYXQiOjE2Njc0NTc3NTksImp0aSI6ImY2Mjk4MjM5ZWM0ZTQzY2VhMTRkYjFlZDliMTgxZTY4IiwiaWQiOjV9.S9N23F0Qrh5aa7qJdzSAPX__0zIU-swlwBVb5ZZkM6s";
@@ -104,7 +111,7 @@ class DisplayController with ChangeNotifier {
           options: Options(headers: {"Authorization": "Bearer $token"}));
 
       if (response.statusCode == 200) {
-        print(response.data);
+        print(response);
         notifyListeners();
         return true;
       } else {

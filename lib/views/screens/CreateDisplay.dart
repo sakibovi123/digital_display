@@ -675,8 +675,9 @@ class CreateDisplay extends StatefulWidget {
 class _CreateDisplayState extends State<CreateDisplay> {
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
-        body: DisplayResponsiveLayout(
+    return Scaffold(
+        appBar: AppBar(),
+        body: const DisplayResponsiveLayout(
             mobileDisplayCreate: CreateDisplayMobile(),
             tvDesplayCreate: CreateDisplayTv()));
   }
