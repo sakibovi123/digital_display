@@ -9,30 +9,30 @@ import 'dart:io';
 import 'package:dio/dio.dart';
 
 class ProductController with ChangeNotifier {
-  LocalStorage localStorage = new LocalStorage('userToken');
+  LocalStorage localStorage = LocalStorage('access');
   List<ProductModel> _products = [];
-  String url =
-      "https://digital-display.betafore.com/api/v1/digital-display/products/";
 
   Future<bool> getProducts() async {
-    var token = localStorage.getItem("access");
+    var url = Uri.parse(
+        "https://digital-display.betafore.com/api/v1/digital-display/products/");
+
+    var token = localStorage.getItem('access');
     try {
-      var response = await http.get(Uri.parse(url), headers: {
-        "Authorization":
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MjczMjY5LCJpYXQiOjE2NjgxODY4NjksImp0aSI6IjE1MWUxNTZlMzJmYTQyZGNhNDZmNzJiMmJiMjBiYzVhIiwiaWQiOjV9.Wu2EEGSYOw8Kp4yAuScPYWnre1FcAMCJhUp3S7u8-nQ"
-      });
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body);
-        List<ProductModel> temp = [];
-        ProductModel productModel = ProductModel.fromJson(data);
-        temp.add(productModel);
-        print("Product Length =>> ${temp[0].results?.length}");
-        _products = temp;
-        notifyListeners();
-        return true;
-      } else {
-        return false;
-      }
+      http.Response response =
+          await http.get(url, headers: {"Authorization": "Bearer $token"});
+      // if (response.statusCode == 200) {
+      print(token);
+      var data = json.decode(response.body);
+      List<ProductModel> temp = [];
+      ProductModel productModel = ProductModel.fromJson(data);
+      temp.add(productModel);
+      print("Product Length =>> ${temp[0].results?.length}");
+      _products = temp;
+      notifyListeners();
+      return true;
+      // } else {
+      //   return false;
+      // }
     } catch (exception) {
       log(exception.toString());
       return false;
@@ -51,6 +51,8 @@ class ProductController with ChangeNotifier {
 
   Future<bool> createProduct(String name, String price, File image) async {
     try {
+      var url =
+          "https://digital-display.betafore.com/api/v1/digital-display/products/";
       Dio dio = Dio();
       var token = localStorage.getItem("access");
       FormData formData = FormData.fromMap({
@@ -79,6 +81,8 @@ class ProductController with ChangeNotifier {
 
   Future<bool> editProduct(String name, String price, File image) async {
     try {
+      var url =
+          "https://digital-display.betafore.com/api/v1/digital-display/products/";
       Dio dio = Dio();
       var token = localStorage.getItem("access");
       FormData formData = FormData.fromMap({
@@ -106,6 +110,8 @@ class ProductController with ChangeNotifier {
 // deleting products
 
   Future deleteProduct(int productId) async {
+    var url =
+        "https://digital-display.betafore.com/api/v1/digital-display/products/";
     Dio dio = Dio();
     var token = localStorage.getItem("access");
 

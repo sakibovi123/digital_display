@@ -287,6 +287,7 @@ class _CreateDisplayMobileState extends State<CreateDisplayMobile> {
                         return Container(
                             height: maxHeight * 0.3,
                             child: ListView.builder(
+                              shrinkWrap: true,
                               itemCount: value.products[0].results!.length,
                               itemBuilder: (context, index) {
                                 return Card(

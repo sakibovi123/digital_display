@@ -33,9 +33,10 @@ class _TvBodyState extends State<TvBody> {
     );
     return Scaffold(
       appBar: AppBar(
-        title: const Text("TV BODY"),
+        title: const Text("DIGITAL DISPLAY"),
+        backgroundColor: Colors.black,
       ),
-      backgroundColor: Colors.deepOrange[300],
+      // backgroundColor: Colors.deepOrange[300],
       body: SingleChildScrollView(
         physics: const ClampingScrollPhysics(),
         child: Expanded(

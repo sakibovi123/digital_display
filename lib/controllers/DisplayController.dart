@@ -21,8 +21,7 @@ class DisplayController with ChangeNotifier {
 
     try {
       http.Response response = await http.get(url, headers: {
-        "Authorization":
-            "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MzAzMzM5LCJpYXQiOjE2NjgyMTY5MzksImp0aSI6IjMzMGI5M2FmNDdmYTQ0NTc4NWZhMDM0N2MxMzg5ZTMyIiwiaWQiOjV9.f9CSTG9O6lpi9KhuJJY1Fv9S5PBQ34yRqop6WEqx1oE"
+        "Authorization": "Bearer $token"
         // "Authorization": "Bearer $token"
       });
       var data = json.decode(response.body);
@@ -72,10 +71,7 @@ class DisplayController with ChangeNotifier {
       var response = await dio.post(url,
           data: formData,
           // options: Options(headers: {"Authorization": "Bearer $token"}));
-          options: Options(headers: {
-            "Authorization":
-                "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNjY4MzAzMzM5LCJpYXQiOjE2NjgyMTY5MzksImp0aSI6IjMzMGI5M2FmNDdmYTQ0NTc4NWZhMDM0N2MxMzg5ZTMyIiwiaWQiOjV9.f9CSTG9O6lpi9KhuJJY1Fv9S5PBQ34yRqop6WEqx1oE"
-          }));
+          options: Options(headers: {"Authorization": "Bearer $token"}));
 
       if (response.statusCode == 200) {
         notifyListeners();

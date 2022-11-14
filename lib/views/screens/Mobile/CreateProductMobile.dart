@@ -9,7 +9,7 @@ import 'package:provider/provider.dart';
 class CreateProductMobile extends StatefulWidget {
   const CreateProductMobile({super.key});
 
-  static const routeName = "/create-product";
+  static const routeName = "/create-product-mobile";
 
   @override
   State<CreateProductMobile> createState() => _CreateProductMobileState();
@@ -20,7 +20,7 @@ class _CreateProductMobileState extends State<CreateProductMobile> {
 
   @override
   void initState() {
-    Provider.of<ProductController>(context, listen: false).getProducts();
+    Provider.of<ProductController>(context).getProducts();
     super.initState();
   }
 
@@ -101,7 +101,7 @@ class _CreateProductMobileState extends State<CreateProductMobile> {
                   child: Column(
                     children: [
                       Padding(
-                        padding: EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(10),
                         child: Container(
                           width: 400,
                           child: TextFormField(
@@ -226,11 +226,8 @@ class _CreateProductMobileState extends State<CreateProductMobile> {
                     builder: (context, value, child) {
                   return GridView.count(
                       shrinkWrap: true,
-                      // childAspectRatio: 2,
-                      physics: ScrollPhysics(),
+                      // physics: const ScrollPhysics(),
                       crossAxisCount: 1,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 5,
                       children: List.generate(
                           value.products.isNotEmpty
                               ? value.products[0].results!.length

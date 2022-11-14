@@ -7,9 +7,11 @@ import 'package:digitaldisplay/views/screens/EditDisplay.dart';
 import 'package:digitaldisplay/views/screens/EditProduct.dart';
 import 'package:digitaldisplay/views/screens/Home.dart';
 import 'package:digitaldisplay/views/screens/Layout/DisplayResponsiveLayout.dart';
+import 'package:digitaldisplay/views/screens/Layout/ResponsiveLayout.dart';
 import 'package:digitaldisplay/views/screens/Login.dart';
 import 'package:digitaldisplay/views/screens/Mobile/CreateDisplayMobile.dart';
 import 'package:digitaldisplay/views/screens/Mobile/MobileBody.dart';
+import 'package:digitaldisplay/views/screens/Mobile/TvBody.dart';
 import 'package:digitaldisplay/views/screens/ShowDisplay.dart';
 import 'package:flutter/material.dart';
 import 'package:localstorage/localstorage.dart';
@@ -40,17 +42,22 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.deepPurple,
           fontFamily: 'OpenSans',
         ),
-        home: const Home(),
+        home: const LoginScreen(),
         // home: token != null ? const Home() : const LoginScreen(),
         routes: {
           Home.routeName: (context) => const Home(),
           MobileBody.routeName: (context) => const MobileBody(),
           LoginScreen.routeName: (context) => const LoginScreen(),
           CreateDisplay.routeName: (context) => const CreateDisplay(),
-          CreateProduct.routeName: (context) => const CreateProduct(),
+          CreateProduct.routeName: (context) => CreateProduct(),
           ShowDisplay.routeName: (context) => const ShowDisplay(),
           EditDisplay.routeName: (context) => const EditDisplay(),
           EditProduct.routeName: (context) => const EditProduct(),
+          ResponsiveLayoutBuilder.routeName: (context) =>
+              const ResponsiveLayoutBuilder(
+                mobileBody: MobileBody(),
+                tvBody: TvBody(),
+              ),
           // DisplayResponsiveLayout.routeName: (context) => const DisplayResponsiveLayout(),
         },
       ),

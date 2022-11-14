@@ -60,6 +60,7 @@ class _MobileBodyState extends State<MobileBody> {
     } else {
       return Scaffold(
         appBar: AppBar(
+          backgroundColor: Colors.black,
           title: const Text("DIGITAL DISPLAY"),
         ),
         // backgroundColor: Colors.deepPurple[200],
